@@ -18,8 +18,8 @@ Class       Set List
 Methods Array 'all'
 	< coll
 		(coll isKindOf: Array)
-			ifTrue: [ self with: coll 
-				   do: [:x :y | (x = y) ifFalse: 
+			ifTrue: [ self with: coll
+				   do: [:x :y | (x = y) ifFalse:
 						  [ ^ x < y ]].
 				  ^ self size < coll size ]
 			ifFalse: [ ^ super < coll ]
@@ -29,15 +29,15 @@ Methods Array 'all'
 			ifTrue: [ (self size = coll size)
 					ifFalse: [ ^ false ].
 				  self with: coll
-					do: [:x :y | (x = y) 
-						ifFalse: [ ^ false ] ]. 
+					do: [:x :y | (x = y)
+						ifFalse: [ ^ false ] ].
 				 ^ true ]
 			ifFalse: [ ^ super = coll ]
 |
 	at: index put: value
 		(self includesKey: index)
 			ifTrue: [ self basicAt: index put: value ]
-			ifFalse: [ smalltalk error: 
+			ifFalse: [ smalltalk error:
 				'illegal index to at:put: for array' ]
 |
 	binaryDo: aBlock
@@ -47,7 +47,7 @@ Methods Array 'all'
 	collect: aBlock		| s newArray |
 		s <- self size.
 		newArray <- Array new: s.
-		(1 to: s) do: [:i | newArray at: i put: 
+		(1 to: s) do: [:i | newArray at: i put:
 			(aBlock value: (self at: i))].
 		^ newArray
 |
@@ -118,7 +118,7 @@ Methods Array 'all'
 |
 	with: coll do: aBlock
 		(1 to: (self size min: coll size))
-			do: [:i | aBlock value: (self at: i) 
+			do: [:i | aBlock value: (self at: i)
 					value: (coll at: i) ]
 |
 	with: coll ifAbsent: z do: aBlock	| xsize ysize |
@@ -137,7 +137,7 @@ Methods ByteArray 'all'
 	basicAt: index put: value
 		^ ((value isMemberOf: Integer) and: [value between: 0 and: 255])
 			ifTrue: [ <32 self index value > ]
-			ifFalse: [ value print. smalltalk error: 
+			ifFalse: [ value print. smalltalk error:
 				'assign illegal value to ByteArray']
 |
 	basicAt: index
@@ -151,13 +151,13 @@ Methods Collection 'all'
 		(coll respondsTo: #includes:)
 			ifFalse: [ ^ smalltalk error:
 				  'collection compared to non collection'].
-		self do: [:x | ((self occurrencesOf: x) < 
+		self do: [:x | ((self occurrencesOf: x) <
 			(coll occurrencesOf: x))ifFalse: [ ^ false ]].
 		coll do: [:x | (self includes: x) ifFalse: [ ^ true ]].
 		^ false
 |
 	= coll
-		self do: [:x | (self occurrencesOf: x) = 
+		self do: [:x | (self occurrencesOf: x) =
 				(coll occurrencesOf: x) ifFalse: [ ^ false ] ].
 		^ true
 |
@@ -191,12 +191,12 @@ Methods Collection 'all'
 		self do: [:x | last <- binaryBlock value: last value: x].
 		^ last
 |
-	isEmpty 
+	isEmpty
 		^ self size == 0
 |
 	occurrencesOf: anObject
 		^ self inject: 0
-		       into: [:x :y | (y = anObject) 
+		       into: [:x :y | (y = anObject)
 					 ifTrue: [x + 1]
 					 ifFalse: [x] ]
 |
@@ -250,11 +250,11 @@ Methods Dictionary 'all'
 				ifTrue: [ aBlock value: (hashTable at: i)
 						value: (hashTable at: i+1) ].
 			      (hashTable at: i+2) notNil
-				ifTrue: [ (hashTable at: i+2) 
+				ifTrue: [ (hashTable at: i+2)
 						binaryDo: aBlock ] ]
 |
 	display
-		self binaryDo: [:x :y | (x printString , ' -> ', 
+		self binaryDo: [:x :y | (x printString , ' -> ',
 					y printString ) print ]
 |
 	includesKey: aKey
@@ -285,14 +285,14 @@ Methods IndexedCollection 'all'
 	addAll: aCollection
 		aCollection binaryDo: [:i :x | self at: i put: x ]
 |
-	asArray	
+	asArray
 		^ Array new: self size ; addAll: self
 |
 	asDictionary
 		^ Dictionary new ; addAll: self
 |
 	at: aKey
-		^ self at: aKey 
+		^ self at: aKey
 			ifAbsent: [ smalltalk error: 'index to at: illegal' ]
 |
 	at: index ifAbsent: exceptionBlock
@@ -302,7 +302,7 @@ Methods IndexedCollection 'all'
 |
 	binaryInject: thisValue into: aBlock     | last |
 		last <- thisValue.
-		self binaryDo: [:i :x | last <- aBlock value: last 
+		self binaryDo: [:i :x | last <- aBlock value: last
 						value: i value: x].
 		^ last
 |
@@ -314,7 +314,7 @@ Methods IndexedCollection 'all'
 		self binaryDo: [:i :x | aBlock value: x ]
 |
 	keys
-		^ self binaryInject: Set new 
+		^ self binaryInject: Set new
 			into: [:s :i :x | s add: i ]
 |
 	indexOf: aBlock
@@ -338,7 +338,7 @@ Methods IndexedCollection 'all'
 Methods Interval 'all'
 	do: aBlock		| current |
 		current <- lower.
-		(step > 0) 
+		(step > 0)
 			ifTrue: [ [ current <= upper ] whileTrue:
 					[ aBlock value: current.
 			  		current <- current + step ] ]
@@ -359,7 +359,7 @@ Methods Link 'all'
 	add: newValue whenFalse: aBlock
 		(aBlock value: value value: newValue)
 			ifTrue: [ (nextLink notNil)
-				ifTrue: [ nextLink <- nextLink add: newValue 
+				ifTrue: [ nextLink <- nextLink add: newValue
 					whenFalse: aBlock ]
 			ifFalse: [ nextLink <- Link new; value: newValue] ]
 			ifFalse: [ ^ Link new; value: newValue; link: self ]
@@ -436,7 +436,7 @@ Methods List 'all'
 	add: aValue ordered: aBlock
 		(links isNil)
 			ifTrue: [ self addFirst: aValue]
-			ifFalse: [ links <- links add: aValue 
+			ifFalse: [ links <- links add: aValue
 					whenFalse: aBlock ]
 |
 	addAll: aValue
@@ -457,16 +457,16 @@ Methods List 'all'
 	links
 		^ links  "used to walk two lists in parallel "
 |
-	reject: aBlock          
+	reject: aBlock
 		^ self select: [:x | (aBlock value: x) not ]
 |
 	reverseDo: aBlock
 		(links notNil)
 			ifTrue: [ links reverseDo: aBlock ]
 |
-	select: aBlock          
+	select: aBlock
 		^ self inject: self class new
-		       into: [:x :y | (aBlock value: y) 
+		       into: [:x :y | (aBlock value: y)
 					ifTrue: [x add: y]. x]
 |
 	do: aBlock
@@ -553,11 +553,11 @@ Methods String 'all'
 	words: aBlock	| text index list |
 		list <- List new.
 		text <- self.
-		[ text <- text copyFrom: 
+		[ text <- text copyFrom:
 			(text indexOf: aBlock ifAbsent: [ text size + 1])
 				to: text size.
 		  text size > 0 ] whileTrue:
-			[ index <- text 
+			[ index <- text
 				indexOf: [:x | (aBlock value: x) not ]
 				ifAbsent: [ text size + 1].
 			  list addLast: (text copyFrom: 1 to: index - 1).

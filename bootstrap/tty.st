@@ -50,7 +50,7 @@ Methods Class 'all'
 |
 	viewMethod: methodName	| m |
 		m <- self methodNamed: methodName.
-		(m notNil) 
+		(m notNil)
 			ifTrue: [ m signature print.  m text print ]
 			ifFalse: [ 'no such method' print ]
 ]
@@ -71,7 +71,7 @@ Methods Smalltalk 'all'
 ]
 Methods String 'all'
 	edit	| file text |
-		file <- File new; 
+		file <- File new;
 			scratchFile;
 			open: 'w';
 			print: self;
@@ -103,7 +103,7 @@ Methods Scheduler 'get commands'
 		string isNil
 			ifTrue: [ notdone <- false ]
 			ifFalse: [ (string size > 0)
-				ifTrue: [ 
+				ifTrue: [
 					echoInput ifTrue:
 						[ string print ].
 					[ string value print ] fork ] ]
@@ -121,7 +121,7 @@ Methods UndefinedObject 'initial image'
 		editor <- 'vi'.
 		" create a dictionary of classes "
 		classes <- Dictionary new.
-		symbols binaryDo: [:x :y | 
+		symbols binaryDo: [:x :y |
 			(y class == Class)
 				ifTrue: [ classes at: x put: y ] ].
 		scheduler <- Scheduler new.

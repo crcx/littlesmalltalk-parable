@@ -189,7 +189,7 @@ Methods Float 'all'
 			ifTrue: [ <118 self value> ]
 			ifFalse: [ super * value ]
 |
-	/ value	
+	/ value
 		^ value isFloat
 			ifTrue: [ (value = 0.0)
 					ifTrue: [ smalltalk error:
@@ -287,7 +287,7 @@ Methods Integer 'all'
 				  t <- self quo: b.
 				  b <- value quo: b.
 				  b negative
-					ifTrue: [ t <- t negated. 
+					ifTrue: [ t <- t negated.
 						  b <- b negated ].
 				  (b = 1) ifTrue: [ ^ t ].
 				  ^ Fraction new; with: t over: b ]
@@ -311,7 +311,7 @@ Methods Integer 'all'
 	asDigit
 		" return as character digit "
 		(self >= 0)
-			ifTrue: [ (self <= 9) ifTrue: 
+			ifTrue: [ (self <= 9) ifTrue:
 					[ ^ (self + $0 asInteger) asCharacter ].
 				  (self < 36) ifTrue:
 					[ ^ (self + $A asInteger - 10) asCharacter ] ].
@@ -328,7 +328,7 @@ Methods Integer 'all'
 		newList <- List new.
 		i = 0 ifTrue: [ newList add: 0 ]
 			ifFalse: [ i <- self abs.
-				   [ i ~= 0 ] whileTrue: 
+				   [ i ~= 0 ] whileTrue:
 					[ newList addLast: (i rem: 100).
 					i <- i quo: 100 ] ].
 		^ LongInteger new; sign: i negative digits: newList asArray
@@ -339,7 +339,7 @@ Methods Integer 'all'
 	bitAnd: value
 		^ (self isShortInteger and: [value isShortInteger])
 			ifTrue: [ <71 self value > ]
-			ifFalse: [ smalltalk error: 
+			ifFalse: [ smalltalk error:
 				'arguments to bit operation must be short integer']
 |
 	bitAt: value
@@ -355,13 +355,13 @@ Methods Integer 'all'
 	bitXor: value
 		^ (self isShortInteger and: [value isShortInteger])
 			ifTrue: [ <72 self value > ]
-			ifFalse: [ smalltalk error: 
+			ifFalse: [ smalltalk error:
 				'argument to bit operation must be integer']
 |
 	bitShift: value
 		^ (self isShortInteger and: [value isShortInteger])
 			ifTrue: [ <79 self value > ]
-			ifFalse: [ smalltalk error: 
+			ifFalse: [ smalltalk error:
 				'argument to bit operation must be integer']
 |
 	even
@@ -431,7 +431,7 @@ Methods LongInteger 'all'
 		(negative == n negative) ifFalse: [ ^ negative ].
 		" now either both positive or both negative "
 		result <- false.
-		self with: n bitDo: 
+		self with: n bitDo:
 			[:x :y | (x ~= y) ifTrue: [ result <- x < y]].
 		negative ifTrue: [ result <- result not ].
 		^ result
@@ -478,14 +478,14 @@ Methods LongInteger 'all'
 		n isShortInteger ifTrue: [ ^ self timesShort: n ].
 		n isLongInteger  ifFalse: [ ^ super * n ].
 		result <- 0 asLongInteger.
-		digits reverseDo: 
+		digits reverseDo:
 			[:x | result <- (result timesShort: 100) +
 				(n timesShort: x)].
 		negative ifTrue: [ result <- result negated ].
 		^ result
 |
 	abs
-		negative ifTrue: [ ^ self negated] 
+		negative ifTrue: [ ^ self negated]
 |
 	asFloat		| r |
 		r <- 0.0 .
@@ -538,7 +538,7 @@ Methods LongInteger 'all'
 |
 	printString	| str |
 		str <- negative ifTrue: [ '-' ] ifFalse: [ '' ].
-		digits reverseDo: [:x | str <- str , 
+		digits reverseDo: [:x | str <- str ,
 			(x quo: 10) printString , (x rem: 10) printString ].
 		^ str
 |
@@ -546,11 +546,11 @@ Methods LongInteger 'all'
 		y <- value abs.
 		carry <- 0.
 		newDigits <- digits collect:
-			[:x | z <- x * y + carry. 
-				carry <- z quo: 100. 
+			[:x | z <- x * y + carry.
+				carry <- z quo: 100.
 				z - (carry * 100)].
 		(carry > 0) ifTrue: [ newDigits <- newDigits grow: carry ].
-		^ LongInteger new; sign: (negative xor: value negative) 
+		^ LongInteger new; sign: (negative xor: value negative)
 					digits: newDigits
 |
 	with: n bitDo: aBlock	| d di dj |
@@ -559,7 +559,7 @@ Methods LongInteger 'all'
 		d <- n digits.
 		dj <- d size.
 		(1 to: (di max: dj)) do: [:i |
-			aBlock value: 
+			aBlock value:
 			   ((i <= di) ifTrue: [ digits at: i] ifFalse: [0])
 				value:
 			   ((i <= dj) ifTrue: [ d at: i] ifFalse: [0]) ]
@@ -605,7 +605,7 @@ Methods Number 'all'
 |
 	maxgen: value
 		(self isNumber and: [ value isNumber ])
-			ifFalse: [ ^ smalltalk error: 
+			ifFalse: [ ^ smalltalk error:
 				'arithmetic on non-numbers' ].
 		^ (self generality > value generality)
 			ifTrue: [ self ]
@@ -688,9 +688,9 @@ Methods Number 'all'
 		^ (self maxgen: value) quo: (value maxgen: self)
 |
 	raisedTo: x	| y |
-		x negative 
+		x negative
 			ifTrue: [ ^ 1 / (self raisedTo: x negated) ].
-		x isShortInteger 
+		x isShortInteger
 			ifTrue: [ (x = 0) ifTrue: [ ^ 1 ].
 				  y <- (self raisedTo: (x quo: 2)) squared.
 				  x odd ifTrue: [ y <- y * self ].

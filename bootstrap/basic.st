@@ -53,7 +53,7 @@ Methods Block 'initialization'
 |
 	whileTrue: aBlock
 		( self value ) ifTrue:
-			[ aBlock value. 
+			[ aBlock value.
 				self whileTrue: aBlock ]
 |
 	whileTrue
@@ -92,7 +92,7 @@ Methods Class 'creation'
 |
 	addSubClass: aSymbol instanceVariableNames: aString	| newClass |
 		newClass <- Class new; name: aSymbol; superClass: self;
-				variables: 
+				variables:
 				  (aString words: [:x | x isAlphabetic ]).
 		aSymbol assign: newClass.
 		classes at: aSymbol put: newClass
@@ -126,7 +126,7 @@ Methods Class 'creation'
 |
 	respondsTo	| theSet |
 		theSet <- Dictionary new.
-		self upSuperclassChain: 
+		self upSuperclassChain:
 			[:x | theSet addAll: x methods ].
 		^ theSet
 |
@@ -155,8 +155,8 @@ Methods Class 'creation'
 |
 	watch: name	| m |
 		m <- self methodNamed: name.
-		(m notNil) 
-			ifTrue: [ ^ m watch: 
+		(m notNil)
+			ifTrue: [ ^ m watch:
 				[:a | ('executing ', name) print. a print] ]
 			ifFalse: [ ^ 'no such method' ]
 ]
@@ -182,7 +182,7 @@ Methods Context 'all'
 |
 	blockReturn
 		<18 self>
-			ifFalse: [ ^ smalltalk error: 
+			ifFalse: [ ^ smalltalk error:
 				'incorrect context for block return']
 ]
 Methods False 'all'
@@ -235,7 +235,7 @@ Methods Method 'all'
 				print ]
 |
 	executeWith: arguments
-		^ ( Context new ; method: self ; 
+		^ ( Context new ; method: self ;
 			temporaries: ( Array new: temporarySize) ;
 			arguments: arguments )
 		   returnToBlock: 1
@@ -282,7 +282,7 @@ Methods Object 'all'
 |
 	deepCopy	| newObj |
 		newObj <- self class new.
-		(1 to: self basicSize) do: 
+		(1 to: self basicSize) do:
 			[:i | newObj basicAt: i put: (self basicAt: i) copy].
 		^ newObj
 |
@@ -311,29 +311,29 @@ Methods Object 'all'
 		^ true
 |
 	print
-		self printString print 
+		self printString print
 |
 	printString
 		^ self class printString
 |
 	respondsTo: message
-		self class upSuperclassChain: 
+		self class upSuperclassChain:
 			[:c | (c methodNamed: message) notNil
 					ifTrue: [ ^ true ]].
 		^ false
 |
 	shallowCopy	| newObj |
 		newObj <- self class new.
-		(1 to: self basicSize) do: 
+		(1 to: self basicSize) do:
 			[:i | newObj basicAt: i put: (self basicAt: i) ].
 		^ newObj
 ]
 Methods Smalltalk 'all'
-	perform: message withArguments: args ifError: aBlock	
+	perform: message withArguments: args ifError: aBlock
 			| receiver method |
 		receiver <- args at: 1 ifAbsent: [ ^ aBlock value ].
 		method <- receiver class methodNamed: message.
-		^ method notNil 
+		^ method notNil
 			ifTrue: [ method executeWith: args ]
 			ifFalse: aBlock
 |

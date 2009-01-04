@@ -2,7 +2,7 @@
 * Little Smalltalk, version 3
 * Written by Tim Budd, Oregon State University, July 1988
 *
-* multiprocess scheduler 
+* multiprocess scheduler
 *
 * if event driven interface (stdwin) is used the event manager sits
 *  below the multiprocess scheduler
@@ -11,14 +11,14 @@ Class Process Object stack stackTop linkPointer
 Class Scheduler Object notdone processList currentProcess
 Class Semaphore Object count processList
 Methods Block 'forks'
-	newProcess 
+	newProcess
 		" create a new process to execute block "
 		^ Process new; context: context ; startAt: bytePointer.
 |
 	newProcessWith: args
 		(self checkArgumentCount: args size)
 			ifTrue: [ (1 to: args size) do: [:i |
-				   context at: (argLoc + i - 1) 
+				   context at: (argLoc + i - 1)
 					put: (args at: i)]].
 		^ self newProcess
 |
@@ -29,7 +29,7 @@ Methods Block 'forks'
 		(self newProcessWith: args) resume
 ]
 Methods Process 'all'
-	execute 
+	execute
 		" execute for time slice, terminating if all over "
 		(stack size > 1500)
 			ifTrue: [ smalltalk error:
@@ -54,12 +54,12 @@ Methods Process 'all'
 		link <- stack at: link+1.
 		" then trace back chain "
 		[ link notNil ] whileTrue:
-			[ m <- stack at: link+3. 
-			  m notNil 
+			[ m <- stack at: link+3.
+			  m notNil
 				ifTrue: [ s <- m signature, ' ('.
 			  		  r <- stack at: link+2.
-			  		  (r to: link-1) do: 
-						[:x | s <- s, ' ', 
+			  		  (r to: link-1) do:
+						[:x | s <- s, ' ',
 							(stack at: x) class asString].
 					  (s, ')') print ].
 			  link <- stack at: link ]
@@ -93,9 +93,9 @@ Methods Scheduler 'all'
 	run
 		" run as long as process list is non empty "
 		[ notdone ] whileTrue:
-			[ processList size = 0 ifTrue: 
+			[ processList size = 0 ifTrue:
 				[ self initialize ].
-			  processList do: 
+			  processList do:
 				[ :x | currentProcess <- x.
 					x execute  ] ]
 |
@@ -112,7 +112,7 @@ Methods Process 'creation'
 		stack at: 4 put: 1. "return point"
 		stack at: 6 put: 1. "bytecode counter"
 |
-	method: x 
+	method: x
 		stack at: 5 put: x.
 |
 	context: ctx

@@ -3,7 +3,7 @@
 * Written by Tim Budd, Oregon State University, January 1989
 *
 *  methods for dealing with files
-*   these are independent of the stdio package, 
+*   these are independent of the stdio package,
 *    work in all systems
 *
 *  a global variable "files" maintains all currently opened files
@@ -40,7 +40,7 @@ Methods File 'all'
 		number notNil ifTrue: [ self close ].
 		self getNumber.
 		<120 number name mode> isNil
-			ifTrue: [ smalltalk error: 
+			ifTrue: [ smalltalk error:
 				 'open failed: ', name. ^ false].
 		^ true
 |
@@ -87,7 +87,7 @@ Methods File 'all'
 		  image file to be open for writing, so we remove it's
 		  number from files array temporarily "
 		(number notNil)
-			ifTrue: [ files at: number put: nil. 
+			ifTrue: [ files at: number put: nil.
 				  <127 number>.
 				  files at: number put: self]
 			ifFalse: [smalltalk error: 'saveImage: file not open']
@@ -104,7 +104,7 @@ Methods Smalltalk 'image'
 		self saveImage: (self getPrompt: 'type image name: ').
 		^ 'done'
 |
-	saveImage: name	
+	saveImage: name
 		scheduler critical: [
 			" first get rid of our own process "
 			scheduler removeProcess: scheduler currentProcess.
@@ -123,7 +123,7 @@ Methods Class 'all'
 |
 	fileOutOn: aFile
 		" file out class description "
-		aFile printNoReturn: 
+		aFile printNoReturn:
 			'Class ', name , ' ', superClass.
 		(variables notNil) ifTrue: [
 			variables do: [:v | aFile printNoReturn: ' ', v ]].
