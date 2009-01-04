@@ -112,7 +112,7 @@ noreturn imageWrite(FILE * fp)
 
 /* i/o primitives - necessarily rather UNIX dependent;
 	basically, files are all kept in a large array.
-	File operations then just give an index into this array 
+	File operations then just give an index into this array
 */
 #define MAXFILES 20
 /* we assume this is initialized to NULL */

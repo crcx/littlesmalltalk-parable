@@ -3,7 +3,7 @@
 	Written by Tim Budd, Oregon State University, July 1987
 
 	lexical analysis routines for method parser
-	should be called only by parser 
+	should be called only by parser
 */
 
 #include <stdio.h>

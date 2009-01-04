@@ -5,7 +5,7 @@
 
 /*
 	The first major decision to be made in the memory manager is what
-	an entity of type object really is.  Two obvious choices are a pointer (to 
+	an entity of type object really is.  Two obvious choices are a pointer (to
 	the actual object memory) or an index into an object table.  We decided to
 	use the latter, although either would work.
 
@@ -135,7 +135,7 @@ extern object sysobj;
 	to allocate a small bit of memory; the version given below
 	allocates a large block and then chops it up as needed; if desired,
 	for versions of malloc that can handle small blocks with ease
-	this can be replaced using the following macro: 
+	this can be replaced using the following macro:
 
 #define mBlockAlloc(size) (object *) calloc((unsigned) size, sizeof(object))
 

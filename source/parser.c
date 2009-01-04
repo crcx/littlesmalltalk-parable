@@ -33,7 +33,7 @@
 #include "lex.h"
 
 		/* all of the following limits could be increased (up to
-		   256) without any trouble.  They are kept low 
+		   256) without any trouble.  They are kept low
 		   to keep memory utilization down */
 
 #define codeLimit 256		/* maximum number of bytecodes permitted */

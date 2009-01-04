@@ -2,7 +2,7 @@
 	Little Smalltalk, version 2
 	Written by Tim Budd, Oregon State University, July 1987
 
-	Improved incorporating suggestions by 
+	Improved incorporating suggestions by
 		Steve Crawley, Cambridge University, October 1987
 		Steven Pemberton, CWI, Amsterdam, Oct 1987
 
@@ -11,7 +11,7 @@
 	This is a rather simple, straightforward, reference counting scheme.
 	There are no provisions for detecting cycles, nor any attempt made
 	at compaction.  Free lists of various sizes are maintained.
-	At present only objects up to 255 bytes can be allocated, 
+	At present only objects up to 255 bytes can be allocated,
 	which mostly only limits the size of method (in text) you can create.
 
 	reference counts are not stored as part of an object image, but
@@ -136,7 +136,7 @@ void setFreeLists()
 
 /*
   mBlockAlloc - rip out a block (array) of object of the given size from
-	the current malloc block 
+	the current malloc block
 */
 #ifndef mBlockAlloc
 
@@ -411,7 +411,7 @@ int i, x;
 Written by Steven Pemberton:
 The following routine assures that objects read in are really referenced,
 eliminating junk that may be in the object file but not referenced.
-It is essentially a marking garbage collector algorithm using the 
+It is essentially a marking garbage collector algorithm using the
 reference counts as the mark
 */
 

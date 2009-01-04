@@ -4,14 +4,14 @@
 
 	Primitive processor
 
-	primitives are how actions are ultimately executed in the Smalltalk 
+	primitives are how actions are ultimately executed in the Smalltalk
 	system.
 	unlike ST-80, Little Smalltalk primitives cannot fail (although
 	they can return nil, and methods can take this as an indication
 	of failure).  In this respect primitives in Little Smalltalk are
 	much more like traditional system calls.
 
-	Primitives are combined into groups of 10 according to 
+	Primitives are combined into groups of 10 according to
 	argument count and type, and in some cases type checking is performed.
 
 	IMPORTANT NOTE:
@@ -19,7 +19,7 @@
 		has overflowed in intBinary() depends upon integers
 		being 16 bits.  If this is not true, other techniques
 		may be required.
-	
+
 	system specific I/O primitives are found in a different file.
 */
 

@@ -560,7 +560,7 @@ int maxsteps;
 		rcv = sysMemPtr(argumentsAt(0));
 		methodClass = basicAt(method, methodClassInMethod);
 		/* if there is a superclass, use it
-		   otherwise for class Object (the only 
+		   otherwise for class Object (the only
 		   class that doesn't have a superclass) use
 		   the class again */
 		returnedObject = basicAt(methodClass, superClassInClass);

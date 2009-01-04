@@ -7,7 +7,7 @@
 	A name table is the term used for a Dictionary indexed by symbols.
 	There are two name tables used internally by the bytecode interpreter.
 	The first is the table, contained in the variable globalNames,
-	that contains the names and values of all globally accessible 
+	that contains the names and values of all globally accessible
 	identifiers.  The second is the table of methods associated with
 	every class.  Notice that in neither of these cases does the
 	system ever put anything INTO the tables, thus there are only
