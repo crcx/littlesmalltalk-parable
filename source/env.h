@@ -8,36 +8,22 @@
  * to another.
   ************************************************************************/ 
 
+/* define custom data types */
+typedef int      boolean;
 typedef unsigned char byte;
 
-#define byteToInt(b) (b)
 
- /* this is a bit sloppy - but it works */ 
-#define longCanBeInt(l) ((l >= -16383) && (l <= 16383))
-
- /* ======== various defines that should work on all systems ==== */ 
-
-#define streq(a,b) (strcmp(a,b) == 0)
-
-#define true 1
+#define true  1
 #define false 0
 
- /* define the datatype boolean */ 
-typedef int     boolean;
-
-
- /* define a bit of lint silencing */ 
-/*
- * 
- ignore means ``i know this function returns something,
- but I really,
- * really do mean to ignore it
- */ 
+#define byteToInt(b) (b)
+#define longCanBeInt(l) ((l >= -16383) && (l <= 16383))
+#define streq(a,b) (strcmp(a,b) == 0)
 #define ignore (void)
 #define noreturn void
 
 
- /* Prototypes */ 
+/* Prototypes */
 #define X ,
 #define OBJ object
 #define OBJP object *
