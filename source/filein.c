@@ -1,3 +1,10 @@
+/************************************************************************
+ * A Little Smalltalk                                           Version 3
+ *
+ * This code is gifted to the public domain. Share freely.
+ *
+ * Routines used in reading in textual descriptions of classes.
+ ************************************************************************/
 /*
 	Little Smalltalk, version 3
 	Written by Tim Budd, Oregon State University, June 1988

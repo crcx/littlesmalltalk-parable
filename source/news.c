@@ -1,7 +1,9 @@
+/************************************************************************
+ * A Little Smalltalk                                           Version 3
+ *
+ * This code is gifted to the public domain. Share freely.
+ ************************************************************************/
 /*
-	little smalltalk, version 3.1
-	written by tim budd, July 1988
-
 	new object creation routines
 	built on top of memory allocation, these routines
 	handle the creation of various kinds of objects

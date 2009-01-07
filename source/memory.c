@@ -1,7 +1,10 @@
-/*
-	Little Smalltalk, version 2
-	Written by Tim Budd, Oregon State University, July 1987
+/************************************************************************
+ * A Little Smalltalk                                           Version 3
+ *
+ * This code is gifted to the public domain. Share freely.
+ ************************************************************************/
 
+/*
 	Improved incorporating suggestions by
 		Steve Crawley, Cambridge University, October 1987
 		Steven Pemberton, CWI, Amsterdam, Oct 1987

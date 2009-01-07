@@ -1,9 +1,11 @@
-/*
-	Little Smalltalk, version 2
+/************************************************************************
+ * A Little Smalltalk                                           Version 3
+ *
+ * This code is gifted to the public domain. Share freely.
+ *
+ * Unix specific I/O routines.
+ ************************************************************************/
 
-	Unix specific input and output routines
-	written by tim budd, January 1988
-*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

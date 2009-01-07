@@ -1,7 +1,9 @@
+/************************************************************************
+ * A Little Smalltalk                                           Version 3
+ *
+ * This code is gifted to the public domain. Share freely.
+ ************************************************************************/
 /*
-	Little Smalltalk, version 2
-	Written by Tim Budd, Oregon State University, July 1987
-
 	Method parser - parses the textual description of a method,
 	generating bytecodes and literals.
 

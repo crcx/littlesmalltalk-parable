@@ -1,21 +1,12 @@
-/*
-	Little Smalltalk, version two
-	Written by Tim Budd, Oregon State University, July 1987
-
-	environmental factors
-
-	This include file gathers together environmental factors that
-	are likely to change from one C compiler to another, or from
-	one system to another.  Please refer to the installation
-	notes for more information.
-
-	for systems using the Make utility, the system name is set
-	by the make script.
-	other systems (such as the Mac) should put a define statement
-	at the beginning of the file, as shown below
-*/
-
-typedef unsigned char byte;
+/************************************************************************
+ * A Little Smalltalk                                           Version 3
+ *
+ * This code is gifted to the public domain. Share freely.
+ *
+ * This include file gathers together environmental factors that are
+ * likely to change from one C compiler to another, or from one system
+ * to another.
+ ************************************************************************/
 
 #define byteToInt(b) (b)
 

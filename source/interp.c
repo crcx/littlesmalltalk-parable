@@ -1,17 +1,18 @@
-/*
-    Little Smalltalk version 3
-    Written by Tim Budd, Oregon State University, July 1988
-
-    bytecode interpreter module
-
-    given a process object, execute bytecodes in a tight loop.
-
-    performs subroutine calls for
-        a) finding a non-cached method
-        b) executing a primitive
-
-    otherwise simply loops until time slice has ended
-*/
+/************************************************************************
+ * A Little Smalltalk                                           Version 3
+ *
+ * This code is gifted to the public domain. Share freely.
+ *
+ * Bytecode interpreter module.
+ *
+ * given a process object, execute bytecodes in a tight loop.
+ *
+ * performs subroutine calls for
+ *   a) finding a non-cached method
+ *   b) executing a primitive
+ *
+ * otherwise simply loops until time slice has ended
+ ************************************************************************/
 
 #include <stdio.h>
 #include "env.h"

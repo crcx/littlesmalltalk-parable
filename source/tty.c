@@ -1,7 +1,9 @@
+/************************************************************************
+ * A Little Smalltalk                                           Version 3
+ *
+ * This code is gifted to the public domain. Share freely.
+ ************************************************************************/
 /*
-	Little Smalltalk, version 3
-	Written by Tim Budd, January 1989
-
 	tty interface routines
 	this is used by those systems that have a bare tty interface
 	systems using another interface, such as the stdwin interface

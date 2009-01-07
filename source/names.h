@@ -1,7 +1,8 @@
-/*
-	Little Smalltalk, version 2
-	Written by Tim Budd, Oregon State University, July 1987
-*/
+/************************************************************************
+ * A Little Smalltalk                                           Version 3
+ *
+ * This code is gifted to the public domain. Share freely.
+ ************************************************************************/ /*
 /*
 	names and sizes of internally object used internally in the system
 */

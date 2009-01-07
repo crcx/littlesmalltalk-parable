@@ -1,9 +1,11 @@
-/*
-	Little Smalltalk, version 3
-	Written by Tim Budd, June 1988
+/************************************************************************
+ * A Little Smalltalk                                           Version 3
+ *
+ * This code is gifted to the public domain. Share freely.
+ *
+ * Initial image maker.
+ ************************************************************************/
 
-	initial image maker
-*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

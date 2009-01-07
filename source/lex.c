@@ -1,10 +1,11 @@
-/*
-	Little Smalltalk, version 2
-	Written by Tim Budd, Oregon State University, July 1987
-
-	lexical analysis routines for method parser
-	should be called only by parser
-*/
+/************************************************************************
+ * A Little Smalltalk                                           Version 3
+ *
+ * This code is gifted to the public domain. Share freely.
+ *
+ * Lexical analysis routines for method parser. Should only be called
+ * by parser.
+ ************************************************************************/
 
 #include <stdio.h>
 #include <ctype.h>

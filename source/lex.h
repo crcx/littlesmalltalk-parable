@@ -1,10 +1,10 @@
-/*
-	Little Smalltalk, version 2
-	Written by Tim Budd, Oregon State University, July 1987
-*/
-/*
-	values returned by the lexical analyzer
-*/
+/************************************************************************
+ * A Little Smalltalk                                           Version 3
+ *
+ * This code is gifted to the public domain. Share freely.
+ *
+ * Values returned by the lexical analyzer.
+ ************************************************************************/
 
 typedef enum tokensyms { nothing, nameconst, namecolon,
     intconst, floatconst, charconst, symconst,

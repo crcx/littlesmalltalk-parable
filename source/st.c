@@ -1,9 +1,10 @@
-/*
-	Little Smalltalk, version 3
-	Main Driver
-	written By Tim Budd, September 1988
-	Oregon State University
-*/
+/************************************************************************
+ * A Little Smalltalk                                           Version 3
+ *
+ * This code is gifted to the public domain. Share freely.
+ *
+ * Main Driver
+ ************************************************************************/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

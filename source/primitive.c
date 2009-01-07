@@ -1,7 +1,9 @@
+/************************************************************************
+ * A Little Smalltalk                                           Version 3
+ *
+ * This code is gifted to the public domain. Share freely.
+ ************************************************************************/
 /*
-	Little Smalltalk, version 3
-	Written by Tim Budd, Oregon State University, July 1988
-
 	Primitive processor
 
 	primitives are how actions are ultimately executed in the Smalltalk
