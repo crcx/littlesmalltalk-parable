@@ -6,7 +6,7 @@
  * This include file gathers together environmental factors that are
  * likely to change from one C compiler to another, or from one system
  * to another.
-  ************************************************************************/ 
+ ************************************************************************/
 
 /* define custom data types */
 typedef int      boolean;

@@ -4,7 +4,7 @@
  * This code is gifted to the public domain. Share freely.
  *
  * Routines used in reading in textual descriptions of classes.
-  ************************************************************************/
+ ************************************************************************/
 
 #include <stdio.h>
 #include <stdlib.h>

@@ -4,7 +4,7 @@
  * This code is gifted to the public domain. Share freely.
  *
  * Symbolic definitions for the bytecodes.
-  ************************************************************************/
+ ************************************************************************/
 
 #define Extended 0
 #define PushInstance 1
