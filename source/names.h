@@ -2,10 +2,8 @@
  * A Little Smalltalk                                           Version 3
  *
  * This code is gifted to the public domain. Share freely.
- ************************************************************************/ /*
-/*
-	names and sizes of internally object used internally in the system
-*/
+ ************************************************************************//*
+    * names and sizes of internally object used internally in the system */ 
 
 #define classSize 5
 #define nameInClass 1
@@ -43,30 +41,53 @@
 #define stackTopInProcess 2
 #define linkPtrInProcess 3
 
-extern object trueobj;		/* the pseudo variable true */
-extern object falseobj;		/* the pseudo variable false */
+extern object   trueobj;	/* the pseudo variable true */
 
-extern object getClass(OBJ);
-extern object copyFrom(OBJ X INT X INT);
-extern object newArray(INT);
-extern object newBlock();
-extern object newByteArray(INT);
-extern object newClass(STR);
-extern object newChar(INT);
-extern object newContext(INT X OBJ X OBJ X OBJ);
-extern object newDictionary(INT);
-extern object newFloat(FLOAT);
-extern object newMethod();
-extern object newLink(OBJ X OBJ);
-extern object newStString(STR);
-extern object newSymbol(STR);
-extern double floatValue(OBJ);
+extern object   falseobj;	/* the pseudo variable false */
+
+
+extern object   getClass(OBJ);
+
+extern object   copyFrom(OBJ X INT X INT);
+
+extern object   newArray(INT);
+
+extern object   newBlock();
+
+extern object   newByteArray(INT);
+
+extern object   newClass(STR);
+
+extern object   newChar(INT);
+
+extern object   newContext(INT X OBJ X OBJ X OBJ);
+
+extern object   newDictionary(INT);
+
+extern object   newFloat(FLOAT);
+
+extern object   newMethod();
+
+extern object   newLink(OBJ X OBJ);
+
+extern object   newStString(STR);
+
+extern object   newSymbol(STR);
+
+extern double   floatValue(OBJ);
+
 extern noreturn initCommonSymbols();	/* common symbols */
-extern object unSyms[], binSyms[];
+
+extern object   unSyms[], binSyms[];
+
 
 extern noreturn nameTableInsert(OBJ X INT X OBJ X OBJ);
-extern int strHash(STR);
-extern object globalKey(STR);
-extern object nameTableLookup(OBJ X STR);
+
+extern int      strHash(STR);
+
+extern object   globalKey(STR);
+
+extern object   nameTableLookup(OBJ X STR);
+
 
 #define globalSymbol(s) nameTableLookup(symbols, s)

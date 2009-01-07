@@ -4,7 +4,7 @@
  * This code is gifted to the public domain. Share freely.
  *
  * Symbolic definitions for the bytecodes.
- ************************************************************************/
+  ************************************************************************/ 
 
 #define Extended 0
 #define PushInstance 1
@@ -21,14 +21,14 @@
 #define DoPrimitive 13
 #define DoSpecial 15
 
-/* a few constants that can be pushed by PushConstant */
-#define minusOne 3		/* the value -1 */
-#define contextConst 4		/* the current context */
-#define nilConst 5		/* the constant nil */
-#define trueConst 6		/* the constant true */
-#define falseConst 7		/* the constant false */
+ /* a few constants that can be pushed by PushConstant */ 
+#define minusOne 3      /* the value -1 */
+#define contextConst 4      /* the current context */
+#define nilConst 5      /* the constant nil */
+#define trueConst 6     /* the constant true */
+#define falseConst 7        /* the constant false */
 
-/* types of special instructions (opcode 15) */
+ /* types of special instructions (opcode 15) */ 
 
 #define SelfReturn 1
 #define StackReturn 2
