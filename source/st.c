@@ -1,11 +1,7 @@
 /************************************************************************
- * A Little Smalltalk                                           Version 3
+ * Parable, a little smalltalk
  *
  * This code is gifted to the public domain. Share freely.
- *
- * Initial image maker.
- *
- * This and 'st.c' may be merged later.
  ************************************************************************/
 
 #include <stdio.h>
@@ -31,7 +27,7 @@ int initial;
 
 int main(int argc, char **argv)
 {
-  if (argc > 1 && strcmp(argv[1], "--make-image") == 0)
+  if (argc > 1 && strcmp(argv[1], "--bootstrap") == 0)
     buildImage(argc, argv);
   else
     listener();
@@ -172,6 +168,6 @@ void listener()
     sysError("no initial process", "in image");
   }
 
-  printf("A Little Smalltalk, Version 3\n");
+  printf("Parable [hit ctrl+d to exit]\n");
   while (execute(firstProcess, 15000));
 }

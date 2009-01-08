@@ -1,12 +1,16 @@
 /************************************************************************
- * A Little Smalltalk                                           Version 3
+ * Parable, a little smalltalk
  *
  * This code is gifted to the public domain. Share freely.
-  ************************************************************************/ 
+ ************************************************************************/
 /*
- *  tty interface routines this is used by those systems that have a bare
- * tty interface systems using another interface, such as the stdwin
- * interface will replace this file with another.
+ * 
+ tty interface routines
+ this is used by those systems that have a bare
+ * tty interface
+ systems using another interface, such as the stdwin
+ * interface
+ will replace this file with another.
  */ 
 
 #include <stdio.h>

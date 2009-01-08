@@ -1,11 +1,14 @@
 /************************************************************************
- * A Little Smalltalk                                           Version 3
+ * Parable, a little smalltalk
  *
  * This code is gifted to the public domain. Share freely.
-  ************************************************************************/ 
+ ************************************************************************/
 /*
- *  new object creation routines built on top of memory allocation, these
- * routines handle the creation of various kinds of objects
+ * 
+ new object creation routines
+ built on top of memory allocation, these
+ * routines
+ handle the creation of various kinds of objects
  */ 
 
 #include <stdio.h>

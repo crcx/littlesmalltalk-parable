@@ -1,8 +1,8 @@
 /************************************************************************
- * A Little Smalltalk                                           Version 3
+ * Parable, a little smalltalk
  *
  * This code is gifted to the public domain. Share freely.
-  ************************************************************************/
+ ************************************************************************/
 
 /*
  * The first major decision to be made in the memory manager is what an

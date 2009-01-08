@@ -1,23 +1,33 @@
 /************************************************************************
- * A Little Smalltalk                                           Version 3
+ * Parable, a little smalltalk
  *
  * This code is gifted to the public domain. Share freely.
-  ************************************************************************/ 
+ ************************************************************************/
 /*
- *  Primitive processor
  * 
- * primitives are how actions are ultimately executed in the Smalltalk system.
- * nlike ST-80, Little Smalltalk primitives cannot fail (although they can
- * return nil, and methods can take this as an indication of failure).  In
- * this respect primitives in Little Smalltalk are much more like
+ Primitive processor
+ * 
+ * primitives are how actions are ultimately executed in the Smalltalk
+ system.
+ * nlike ST-80, Little Smalltalk primitives cannot fail (although
+ they can
+ * return nil, and methods can take this as an indication
+ of failure).  In
+ * this respect primitives in Little Smalltalk are
+ much more like
  * traditional system calls.
  * 
- * Primitives are combined into groups of 10 according to argument count and
+ * Primitives are combined into groups of 10 according to
+ argument count and
  * type, and in some cases type checking is performed.
  * 
- * IMPORTANT NOTE: The technique used to tell if an arithmetic operation has
- * overflowed in intBinary() depends upon integers being 16 bits.  If this
- * is not true, other techniques may be required.
+ * IMPORTANT NOTE:
+ The technique used to tell if an arithmetic operation
+ has
+ * overflowed in intBinary() depends upon integers
+ being 16 bits.  If this
+ * is not true, other techniques
+ may be required.
  * 
  * system specific I/O primitives are found in a different file.
  */ 
@@ -235,7 +245,8 @@ object firstarg;
       
     } else
       
-#endif	/*  */
+#endif	/* 
+ */
 #ifdef CRTLBRK
 	 /* trap control-C using dos ctrlbrk routine */ 
 	ctrlbrk(brkfun);
@@ -247,7 +258,8 @@ object firstarg;
       
     } else
       
-#endif	/*  */
+#endif	/* 
+ */
       if (execute(firstarg, 5000))
       
 	returnedObject = trueobj;
@@ -264,11 +276,13 @@ object firstarg;
 #ifdef SIGNAL
       signal(SIGINT, brkignore);
     
-#endif	/*  */
+#endif	/* 
+ */
 #ifdef CTRLBRK
       ctrlbrk(brkignore);
     
-#endif	/*  */
+#endif	/* 
+ */
       break;
     
       
@@ -819,7 +833,8 @@ strUnary(number, firstargument)
 #ifndef NOSYSTEM
       returnedObject = newInteger(system(firstargument));
     
-#endif	/*  */
+#endif	/* 
+ */
       break;
     
       
@@ -937,7 +952,8 @@ floatUnary(number, firstarg)
 	  returnedObject = newFloat(temp);
       
     } 
-#endif	/*  */
+#endif	/* 
+ */
       break;
     
       
@@ -1057,7 +1073,8 @@ floatBinary(number, first, second)
 } 
 
 /*
- * primitive - the main driver for the primitive handler
+ * primitive -
+ the main driver for the primitive handler
  */ 
 object primitive(primitiveNumber, arguments) 
   register int    primitiveNumber;

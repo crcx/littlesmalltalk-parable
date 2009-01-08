@@ -1,28 +1,43 @@
 /************************************************************************
- * A Little Smalltalk                                           Version 3
+ * Parable, a little smalltalk
  *
  * This code is gifted to the public domain. Share freely.
-  ************************************************************************/ 
+ ************************************************************************/
 
 /*
- *  Name Table module
  * 
- * A name table is the term used for a Dictionary indexed by symbols. There are
- * two name tables used internally by the bytecode interpreter. The first is
- * the table, contained in the variable globalNames, that contains the names
- * and values of all globally accessible identifiers.  The second is the
- * table of methods associated with every class.  Notice that in neither of
- * these cases does the system ever put anything INTO the tables, thus there
- * are only routines here for reading FROM tables.
+ Name Table module
  * 
- * One complication of instances of class Symbol is that all symbols must be
- * unique, not only so that == will work as expected, but so that memory
- * does not get overly clogged up with symbols. Thus all symbols are kept in
- * a hash table, and when new symbols are created (via newSymbol(), below)
- * they are inserted into this table, if not already there.
+ * A name table is the term used for a Dictionary indexed by symbols.
+ There are
+ * two name tables used internally by the bytecode interpreter.
+ The first is
+ * the table, contained in the variable globalNames,
+ that contains the names
+ * and values of all globally accessible
+ identifiers.  The second is the
+ * table of methods associated with
+ every class.  Notice that in neither of
+ * these cases does the
+ system ever put anything INTO the tables, thus there
+ * are only
+ routines here for reading FROM tables.
  * 
- * This module also manages the definition of various symbols that are given
- * fixed values for efficiency sake.  These include the objects nil, true,
+ * One complication of instances of class Symbol is that all
+ symbols must be
+ * unique, not only so that == will work as expected,
+ but so that memory
+ * does not get overly clogged up with symbols.
+ Thus all symbols are kept in
+ * a hash table, and when new symbols
+ are created (via newSymbol(), below)
+ * they are inserted into this
+ table, if not already there.
+ * 
+ * This module also manages the definition of various symbols that are
+ given
+ * fixed values for efficiency sake.  These include the objects
+ nil, true,
  * false, and various classes.
  */ 
 

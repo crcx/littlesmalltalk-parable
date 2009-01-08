@@ -1,11 +1,11 @@
 /************************************************************************
- * A Little Smalltalk                                           Version 3
+ * Parable, a little smalltalk
  *
  * This code is gifted to the public domain. Share freely.
  *
  * Lexical analysis routines for method parser. Should only be called
  * by parser.
-  ************************************************************************/ 
+ ************************************************************************/ 
 
 #include <stdio.h>
 #include <ctype.h>

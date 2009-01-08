@@ -1,24 +1,34 @@
 /************************************************************************
- * A Little Smalltalk                                           Version 3
+ * Parable, a little smalltalk
  *
  * This code is gifted to the public domain. Share freely.
-  ************************************************************************/ 
+ ************************************************************************/
 
 /*
- *  Improved incorporating suggestions by Steve Crawley, Cambridge
- * University, October 1987 Steven Pemberton, CWI, Amsterdam, Oct 1987
+ * 
+ Improved incorporating suggestions by
+ Steve Crawley, Cambridge
+ * University, October 1987
+ Steven Pemberton, CWI, Amsterdam, Oct 1987
  * 
  * memory management module
  * 
- * This is a rather simple, straightforward, reference counting scheme. There
- * are no provisions for detecting cycles, nor any attempt made at
- * compaction.  Free lists of various sizes are maintained. At present only
- * objects up to 255 bytes can be allocated, which mostly only limits the
+ * This is a rather simple, straightforward, reference counting scheme.
+ There
+ * are no provisions for detecting cycles, nor any attempt made
+ at
+ * compaction.  Free lists of various sizes are maintained.
+ At present only
+ * objects up to 255 bytes can be allocated,
+ which mostly only limits the
  * size of method (in text) you can create.
  * 
- * reference counts are not stored as part of an object image, but are instead
- * recreated when the object is read back in. This is accomplished using a
- * mark-sweep algorithm, similar to those used in garbage collection.
+ * reference counts are not stored as part of an object image, but
+ are instead
+ * recreated when the object is read back in.
+ This is accomplished using a
+ * mark-sweep algorithm, similar
+ to those used in garbage collection.
  * 
  */ 
 
@@ -48,28 +58,38 @@ object symbols;			/* table of all symbols created */
 
 
 /*
- *  in theory the objectTable should only be accessible to the memory
- * r.  Indeed, given the right macro definitions, this can be made so.
- * Never the less, for efficiency sake some of the macros can also be
+ * 
+ in theory the objectTable should only be accessible to the memory
+ * r.  Indeed, given the right macro definitions, this can be
+ made so.
+ * Never the less, for efficiency sake some of the macros
+ can also be
  * defined to access the object table directly
  * 
- * Some systems (e.g. the Macintosh) have static limits (e.g. 32K) which
- * prevent the object table from being declared. In this case the object
- * table must first be allocated via calloc during the initialization of the
+ * Some systems (e.g. the Macintosh) have static limits (e.g. 32K)
+ which
+ * prevent the object table from being declared.
+ In this case the object
+ * table must first be allocated via
+ calloc during the initialization of the
  * memory manager.
  */ 
 
 #ifdef obtalloc
 struct objectStruct *objectTable;
 
-#endif	/*  */
+#endif	/* 
+ */
 #ifndef obtalloc
 struct objectStruct objectTable[ObjectTableMax];
 
-#endif	/*  */
+#endif	/* 
+ */
 
 /*
- *  The following variables are strictly local to the memory manager module
+ * 
+ The following variables are strictly local to the memory
+ manager module
  * 
  * FREELISTMAX defines the maximum size of any object.
  */ 
@@ -87,7 +107,8 @@ static object  *memoryBlock;	/* malloc'ed chunck of memory */
 static int      currentMemoryPosition;		/* last used position in
 						 * above */
 
-#endif	/*  */
+#endif	/* 
+ */
 
 
  /* initialize the memory management module */ 
@@ -104,7 +125,8 @@ noreturn initMemoryManager()
     
       sysError("cannot allocate", "object table");
   
-#endif	/*  */
+#endif	/* 
+ */
     
      /* set all the free list pointers to zero */ 
     for (i = 0; i < FREELISTMAX; i++)
@@ -130,7 +152,8 @@ noreturn initMemoryManager()
      /* force an allocation on first object assignment */ 
     currentMemoryPosition = MemoryBlockSize + 1;
   
-#endif	/*  */
+#endif	/* 
+ */
     
      /* object at location 0 is the nil object, so give it nonzero ref */ 
     objectTable[0].referenceCount = 1;
@@ -182,7 +205,8 @@ setFreeLists()
 } 
 
 /*
- *  mBlockAlloc - rip out a block (array) of object of the given size from
+ * 
+ mBlockAlloc - rip out a block (array) of object of the given size from
  * he current malloc block
  */ 
 #ifndef mBlockAlloc
@@ -200,9 +224,13 @@ object * mBlockAlloc(memorySize)
     
       
     /*
-     * we toss away space here.  Space-Frugal users may want to fix this by
-     * making a new object of size MemoryBlockSize - currentMemoryPositon -
-     * 1 and putting it on the free list, but I think the savings is
+     * we toss away space here.  Space-Frugal users may want to
+ fix this by
+     * making a new object of size
+ MemoryBlockSize - currentMemoryPositon -
+     * 1
+ and putting it on the free list, but I think
+ the savings is
      * potentially small
        */ 
       
@@ -223,7 +251,8 @@ object * mBlockAlloc(memorySize)
     return (objptr);
   
 } 
-#endif	/*  */
+#endif	/* 
+ */
 
  /* allocate a new memory object */ 
 object allocObject(memorySize) 
@@ -256,7 +285,8 @@ object allocObject(memorySize)
   } 
     
   /*
-   * if not there, next try making a size zero object and making it bigger
+   * if not there, next try making a size zero object and
+ making it bigger
      */ 
     else if ((position = objectFreeList[0]) != 0)
   {
@@ -307,7 +337,8 @@ object allocObject(memorySize)
 #ifdef mBlockAlloc
 	    free(objectTable[position].memory);
 	  
-#endif	/*  */
+#endif	/* 
+ */
 	    objectTable[position].memory = mBlockAlloc(memorySize);
 	  
 	    done = true;
@@ -371,7 +402,8 @@ object allocStr(str)
 #ifdef incr
 object incrobj;			/* buffer for increment macro */
 
-#endif	/*  */
+#endif	/* 
+ */
 #ifndef incr
 void 
 incr(z) 
@@ -386,7 +418,8 @@ object z;
     
   } 
 } 
-#endif	/*  */
+#endif	/* 
+ */
 
 #ifndef decr
 void 
@@ -406,7 +439,8 @@ object z;
     } 
   } 
 } 
-#endif	/*  */
+#endif	/* 
+ */
 
  /* do the real work in the decr procedure */ 
 void 
@@ -487,7 +521,8 @@ object z;
     return (0);
   
 } 
-#endif	/*  */
+#endif	/* 
+ */
 
 #ifndef simpleAtPut
 
@@ -518,7 +553,8 @@ object z, v;
     
   } 
 } 
-#endif	/*  */
+#endif	/* 
+ */
 
 #ifndef basicAtPut
 
@@ -535,12 +571,14 @@ object z, v;
     incr(v);
   
 } 
-#endif	/*  */
+#endif	/* 
+ */
 
 #ifdef fieldAtPut
 int             f_i;
 
-#endif	/*  */
+#endif	/* 
+ */
 
 #ifndef fieldAtPut
 void 
@@ -556,7 +594,8 @@ object z, v;
     basicAtPut(z, i, v);
   
 } 
-#endif	/*  */
+#endif	/* 
+ */
 
 #ifndef byteAt
 int 
@@ -598,7 +637,8 @@ object z;
     return (i);
   
 } 
-#endif	/*  */
+#endif	/* 
+ */
 
 #ifndef byteAtPut
 void 
@@ -632,13 +672,19 @@ object z;
     
   } 
 } 
-#endif	/*  */
+#endif	/* 
+ */
 
 /*
- *  Written by Steven Pemberton: The following routine assures that objects
- * read in are really referenced, eliminating junk that may be in the object
- * file but not referenced. It is essentially a marking garbage collector
- * algorithm using the reference counts as the mark
+ * 
+ Written by Steven Pemberton:
+ The following routine assures that objects
+ * read in are really referenced,
+ eliminating junk that may be in the object
+ * file but not referenced.
+ It is essentially a marking garbage collector
+ * algorithm using the
+ reference counts as the mark
  */ 
 
 void 

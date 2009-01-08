@@ -1,10 +1,10 @@
 /************************************************************************
- * A Little Smalltalk                                           Version 3
+ * Parable, a little smalltalk
  *
  * This code is gifted to the public domain. Share freely.
  *
  * Unix specific I/O routines.
-  ************************************************************************/ 
+ ************************************************************************/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -34,9 +34,15 @@ struct
 
 
 /*
- *  imageRead - read in an object image we toss out the free lists built
- * initially, reconstruct the linkages, then rebuild the free lists around
- * the new objects. The only objects with nonzero reference counts will be
+ * 
+ imageRead - read in an object image
+ we toss out the free lists built
+ * initially,
+ reconstruct the linkages, then rebuild the free
+ lists around
+ * the new objects.
+ The only objects with nonzero reference counts
+ will be
  * those reachable from either symbols
  */ 
 static int 
@@ -120,7 +126,8 @@ noreturn imageRead(FILE * fp)
 } 
 
 /*
- *  imageWrite - write out an object image
+ * 
+ imageWrite - write out an object image
  */ 
 
 static void 
@@ -173,8 +180,10 @@ noreturn imageWrite(FILE * fp)
 
 
 /*
- * i/o primitives - necessarily rather UNIX dependent; basically, files are
- * all kept in a large array. File operations then just give an index into
+ * i/o primitives - necessarily rather UNIX dependent;
+ basically, files are
+ * all kept in a large array.
+ File operations then just give an index into
  * this array
  */ 
 #define MAXFILES 20

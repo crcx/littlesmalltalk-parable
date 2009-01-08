@@ -1,10 +1,10 @@
 /************************************************************************
- * A Little Smalltalk                                           Version 3
+ * Parable, a little smalltalk
  *
  * This code is gifted to the public domain. Share freely.
  *
  * Values returned by the lexical analyzer.
-  ************************************************************************/
+ ************************************************************************/
 
 typedef enum tokensyms
 {

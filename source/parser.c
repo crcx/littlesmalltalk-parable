@@ -1,25 +1,36 @@
 /************************************************************************
- * A Little Smalltalk                                           Version 3
+ * Parable, a little smalltalk
  *
  * This code is gifted to the public domain. Share freely.
-  ************************************************************************/ 
+ ************************************************************************/
 /*
- *  Method parser - parses the textual description of a method, generating
+ * 
+ Method parser - parses the textual description of a method,
+ generating
  * bytecodes and literals.
  * 
- * This parser is based around a simple minded recursive descent parser. It is
- * used both by the module that builds the initial virtual image, and by a
+ * This parser is based around a simple minded recursive descent
+ parser.
+ It is
+ * used both by the module that builds the initial virtual image,
+ and by a
  * primitive when invoked from a running Smalltalk system.
  * 
- * The latter case could, if the bytecode interpreter were fast enough, be
- * replaced by a parser written in Smalltalk.  This would be preferable, but
+ * The latter case could, if the bytecode interpreter were fast enough,
+ be
+ * replaced by a parser written in Smalltalk.  This would be preferable,
+ but
  * not if it slowed down the system too terribly.
  * 
- * To use the parser the routine setInstanceVariables must first be called with
- * a class object.  This places the appropriate instance variables into the
- * memory buffers, so that references to them can be correctly encoded.
+ * To use the parser the routine setInstanceVariables must first be
+ called with
+ * a class object.  This places the appropriate instance
+ variables into the
+ * memory buffers, so that references to them
+ can be correctly encoded.
  * 
- * As this is recursive descent, you should read it SDRAWKCAB ! (from bottom to
+ * As this is recursive descent, you should read it SDRAWKCAB !
+ (from bottom to
  * top)
  */ 
 #include <stdio.h>
@@ -33,8 +44,10 @@
 #include "lex.h"
 
 /*
- * all of the following limits could be increased (up to 256) without any
- * trouble.  They are kept low to keep memory utilization down
+ * all of the following limits could be increased (up to
+ 256) without any
+ * trouble.  They are kept low
+ to keep memory utilization down
  */ 
 
 #define codeLimit 256       /* maximum number of bytecodes permitted */
@@ -718,8 +731,10 @@ boolean superReceiver;
     
        /* the next generates too many spurious messages */ 
     /*
-     * for (i=1; i < instanceTop; i++) if (streq(tokenString,
-     * instanceName[i])) compilWarn(selector,"message same as instance",
+     * for (i=1; i < instanceTop; i++)
+ if (streq(tokenString,
+     * instanceName[i]))
+ compilWarn(selector,"message same as instance",
      * enString);
        */ 
       
