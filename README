@@ -1,13 +1,14 @@
- _     _ _   _   _         ____                  _ _ _        _ _
-| |   (_) |_| |_| | ___   / ___| _ __ ___   __ _| | | |_ __ _| | | __
-| |   | | __| __| |/ _ \  \___ \| '_ ` _ \ / _` | | | __/ _` | | |/ /
-| |___| | |_| |_| |  __/   ___) | | | | | | (_| | | | || (_| | |   <
-|_____|_|\__|\__|_|\___|  |____/|_| |_| |_|\__,_|_|_|\__\__,_|_|_|\_\
+______                      _      _
+| ___ \                    | |    | |
+| |_/ /  __ _  _ __   __ _ | |__  | |  ___
+|  __/  / _` || '__| / _` || '_ \ | | / _ \
+| |    | (_| || |   | (_| || |_) || ||  __/
+\_|     \__,_||_|    \__,_||_.__/ |_| \___|
 ===============================================================================
-This is A Little Smalltalk, Version 3.
+Parable, a little smalltalk
 
-LST3 is a public domain implementation of Smalltalk originally written by
-Tim Budd.
+This is a small implementation of Smalltalk. It's based directly on Tim
+Budd's Little Smalltalk, Version 3.
 
 I've reorganized the source and am cleaning it up and making it work on modern
 Unix-like OSes (BSD, Linux, OS X).
