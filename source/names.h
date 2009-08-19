@@ -42,8 +42,8 @@
 #define stackTopInProcess 2
 #define linkPtrInProcess 3
 
-extern object   trueobj;	/* the pseudo variable true */
-extern object   falseobj;	/* the pseudo variable false */
+extern object   trueobj;              /* the pseudo variable true */
+extern object   falseobj;             /* the pseudo variable false */
 extern object   getClass(OBJ);
 extern object   copyFrom(OBJ X INT X INT);
 extern object   newArray(INT);
@@ -59,7 +59,7 @@ extern object   newLink(OBJ X OBJ);
 extern object   newStString(STR);
 extern object   newSymbol(STR);
 extern double   floatValue(OBJ);
-extern noreturn initCommonSymbols();	/* common symbols */
+extern noreturn initCommonSymbols();  /* common symbols */
 extern object   unSyms[], binSyms[];
 extern noreturn nameTableInsert(OBJ X INT X OBJ X OBJ);
 extern int      strHash(STR);
