@@ -21,3 +21,24 @@ Goals for remainder of 2009:
 
 -- Charles Childers
 ===============================================================================
+Finished:
+
+  env.h
+  filein.c
+  interp.h
+  lex.h
+  names.h
+  st.c
+  unixio.c
+
+To Be Cleaned:
+
+  interp.c
+  lex.c
+  memory.c
+  memory.h
+  names.c
+  news.c
+  parser.c
+  primitive.c
+  tty.c
