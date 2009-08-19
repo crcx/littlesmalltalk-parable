@@ -69,16 +69,18 @@ static void readClassDeclaration()
   classObj = findClass(tokenString);
   size = 0;
 
+  /* read superclass name */
   if (nextToken() == nameconst)
-  {				/* read superclass name */
+  {
     super = findClass(tokenString);
     basicAtPut(classObj, superClassInClass, super);
     size = intValue(basicAt(super, sizeInClass));
     ignore nextToken();
   }
 
+  /* read instance var names */
   if (token == nameconst)
-  {				/* read instance var names */
+  {
     instanceTop = 0;
 
     while (token == nameconst)
@@ -133,7 +135,8 @@ static void readMethods(FILE *fd, boolean printit)
   /* now go read the methods */
   do
   {
-    if (lineBuffer[0] == '|')	/* get any left over text */
+    /* get any left over text */
+    if (lineBuffer[0] == '|')
       strcpy(textBuffer, &lineBuffer[1]);
     else
       textBuffer[0] = '\0';
@@ -180,8 +183,13 @@ void fileIn(FILE *fd, boolean printit)
   while (fgets(textBuffer, TextBufferSize, fd) != NULL)
   {
     lexinit(textBuffer);
-    if (token == inputend);     /* do nothing, get next line */
-    else if ((token == binary) && streq(tokenString, "*"));	/* do nothing, its a comment */
+
+    /* do nothing, get next line */
+    if (token == inputend);
+
+    /* do nothing, its a comment */
+    else if ((token == binary) && streq(tokenString, "*"));
+
     else if ((token == nameconst) && streq(tokenString, "Class"))
       readClassDeclaration();
     else if ((token == nameconst) && streq(tokenString, "Methods"))
