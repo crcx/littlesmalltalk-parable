@@ -113,8 +113,7 @@ static boolean findMethod(object *methodClassLocation)
 
 /* the following are manipulated by primitives */
 object processStack;
-
-int             linkPointer;
+int    linkPointer;
 
 
 static object growProcessStack(int top, int toadd)
@@ -281,7 +280,7 @@ doSendMessage:
         methodClass = classField(argumentsAt(0));
       }
 doFindMessage:
-/* look up method in cache */
+      /* look up method in cache */
       i = (((int) messageToSend) + ((int) methodClass)) % cacheSize;
 
       if ((methodCache[i].cacheMessage == messageToSend) && (methodCache[i].lookupClass == methodClass))
@@ -304,431 +303,290 @@ doFindMessage:
             basicAtPut(argarray, j + 1, returnedObject);
             decr(returnedObject);
           }
-	    ipush(basicAt(argarray, 1));	/* push receiver back */
-	    ipush(messageToSend);
-	    messageToSend = newSymbol("message:notRecognizedWithArguments:");
-	    ipush(argarray);
-/* try again - if fail really give up */
-	    if (!findMethod(&methodClass))
-	  {
-	      sysWarn("can't find", "error recovery method");
-	       /* just quit */
-	      return false;
-	  }
-	}
-	  methodCache[i].cacheMessage = messageToSend;
-	  methodCache[i].cacheMethod = method;
-	  methodCache[i].cacheClass = methodClass;
-      }
-	if (watching && (basicAt(method, watchInMethod) != nilobj))
-      {
-/* being watched, we send to method itself */
-	  j = processStackTop() - returnPoint;
-	  argarray = newArray(j + 1);
-	  for (; j >= 0; j--)
-	{
-	    ipop(returnedObject);
-	    basicAtPut(argarray, j + 1, returnedObject);
-	    decr(returnedObject);
-	}
-	  ipush(method);	/* push method */
-	  ipush(argarray);
-	  messageToSend = newSymbol("watchWith:");
-/* try again - if fail really give up */
-	  methodClass = classField(method);
-	  if (!findMethod(&methodClass))
-	{
-	    sysWarn("can't find", "watch method");
-	     /* just quit */
-	    return false;
-	}
-      }
-	 /* save the current byte pointer */
-	fieldAtPut(processStack, linkPointer + 4, newInteger(byteOffset));
-	 /* make sure we have enough room in current process */
-	 /* stack, if not make stack larger */
-	i = 6 + methodTempSize(method) + methodStackSize(method);
-	j = processStackTop();
-	if ((j + i) > sizeField(processStack))
-      {
-	  processStack = growProcessStack(j, i);
-	  psb = sysMemPtr(processStack);
-	  pst = (psb + j);
-	  fieldAtPut(aProcess, stackInProcess, processStack);
-      }
-	byteOffset = 1;
 
-/* now make linkage area */ 
-/* position 0 : old linkage pointer */ 
-	ipush(newInteger(linkPointer));
-	linkPointer = processStackTop();
-/* position 1 : context object (nil means stack) */ 
-	ipush(nilobj);
-	contextObject = processStack;
-	cntx = psb;
-/* position 2 : return point */ 
-	ipush(newInteger(returnPoint));
-	arg = cntx + (returnPoint - 1);
-/* position 3 : method */ 
-	ipush(method);
-/* position 4 : bytecode counter */ 
-	ipush(newInteger(byteOffset));
-/* then make space for temporaries */ 
-	temps = pst + 1;
-	pst += methodTempSize(method);
-/* break if we are too big and probably looping */ 
-	if (sizeField(processStack) > 1800)
+          /* push receiver back */
+          ipush(basicAt(argarray, 1));
+          ipush(messageToSend);
+          messageToSend = newSymbol("message:notRecognizedWithArguments:");
+          ipush(argarray);
+
+          /* try again - if fail really give up */
+          if (!findMethod(&methodClass))
+          {
+            sysWarn("can't find", "error recovery method");
+            /* just quit */
+            return false;
+          }
+        }
+        methodCache[i].cacheMessage = messageToSend;
+        methodCache[i].cacheMethod = method;
+        methodCache[i].cacheClass = methodClass;
+      }
+
+      /* being watched, we send to method itself */
+      if (watching && (basicAt(method, watchInMethod) != nilobj))
+      {
+        j = processStackTop() - returnPoint;
+        argarray = newArray(j + 1);
+        for (; j >= 0; j--)
+        {
+          ipop(returnedObject);
+          basicAtPut(argarray, j + 1, returnedObject);
+          decr(returnedObject);
+        }
+
+        /* push method */
+        ipush(method);
+        ipush(argarray);
+        messageToSend = newSymbol("watchWith:");
+
+        /* try again - if fail really give up */
+        methodClass = classField(method);
+        if (!findMethod(&methodClass))
+        {
+          sysWarn("can't find", "watch method");
+          /* just quit */
+          return false;
+        }
+      }
+      /* save the current byte pointer */
+      fieldAtPut(processStack, linkPointer + 4, newInteger(byteOffset));
+
+      /* make sure we have enough room in current process */
+      /* stack, if not make stack larger */
+      i = 6 + methodTempSize(method) + methodStackSize(method);
+      j = processStackTop();
+      if ((j + i) > sizeField(processStack))
+      {
+        processStack = growProcessStack(j, i);
+        psb = sysMemPtr(processStack);
+        pst = (psb + j);
+        fieldAtPut(aProcess, stackInProcess, processStack);
+      }
+      byteOffset = 1;
+
+      /* now make linkage area */
+      /* position 0 : old linkage pointer */
+ipush(newInteger(linkPointer));
+linkPointer = processStackTop();
+/* position 1 : context object (nil means stack) */
+ipush(nilobj);
+contextObject = processStack;
+cntx = psb;
+/* position 2 : return point */
+ipush(newInteger(returnPoint));
+arg = cntx + (returnPoint - 1);
+/* position 3 : method */
+ipush(method);
+/* position 4 : bytecode counter */
+ipush(newInteger(byteOffset));
+/* then make space for temporaries */
+temps = pst + 1;
+pst += methodTempSize(method);
+/* break if we are too big and probably looping */
+if (sizeField(processStack) > 1800)
   timeSliceCounter = 0;
-	goto readMethodInfo;
+goto readMethodInfo;
     case SendUnary:
-	 /* do isNil and notNil as special cases, since */ 
-	 /* they are so common */ 
-	if ((!watching) && (low <= 1))
+ /* do isNil and notNil as special cases, since */
+ /* they are so common */
+if ((!watching) && (low <= 1))
       {
-	  if (stackTop() == nilobj)
-	{
-	    stackTopPut((low ? falseobj : trueobj));
-	    break;
-	} 
-      } 
-	returnPoint = processStackTop();
-	messageToSend = unSyms[low];
-	goto doSendMessage;
-	break;
+  if (stackTop() == nilobj)
+{
+    stackTopPut((low ? falseobj : trueobj));
+    break;
+}
+      }
+returnPoint = processStackTop();
+messageToSend = unSyms[low];
+goto doSendMessage;
+break;
     case SendBinary:
-	 /* optimized as long as arguments are int */ 
-	 /* and conversions are not necessary */ 
-	 /* and overflow does not occur */ 
-	if ((!watching) && (low <= 12))
+ /* optimized as long as arguments are int */
+ /* and conversions are not necessary */
+ /* and overflow does not occur */
+if ((!watching) && (low <= 12))
       {
-	
-	  primargs = pst - 1;
-	
-	  returnedObject = primitive(low + 60, primargs);
-	
-	  if (returnedObject != nilobj)
-	{
-	  
-	     /* pop arguments off stack , push on result */ 
-	    stackTopFree();
-	  
-	    stackTopPut(returnedObject);
-	  
-	    break;
-	  
-	} 
-      } 
-	 /* else we do it the old fashion way */ 
-	returnPoint = processStackTop() - 1;
-      
-	messageToSend = binSyms[low];
-      
-	goto doSendMessage;
-      
-	
+  primargs = pst - 1;
+  returnedObject = primitive(low + 60, primargs);
+  if (returnedObject != nilobj)
+{
+     /* pop arguments off stack , push on result */
+    stackTopFree();
+    stackTopPut(returnedObject);
+    break;
+}
+      }
+ /* else we do it the old fashion way */
+returnPoint = processStackTop() - 1;
+messageToSend = binSyms[low];
+goto doSendMessage;
     case DoPrimitive:
-      
-	 /* low gives number of arguments */ 
-	 /* next byte is primitive number */ 
-	primargs = (pst - low) + 1;
-      
-	 /* next byte gives primitive number */ 
-	i = nextByte();
-      
+ /* low gives number of arguments */
+ /* next byte is primitive number */
+primargs = (pst - low) + 1;
+ /* next byte gives primitive number */
+i = nextByte();
       /*
        * a few primitives are so common, and so easy, that
  they deserve
        * special treatment
-	 */ 
-	switch (i)
+ */
+switch (i)
       {
-	
-      case 5:			/* set watch */
-	
-	  watching = !watching;
-	
-	  returnedObject = watching ? trueobj : falseobj;
-	
-	  break;
-	
-	  
-      case 11:			/* class of object */
-	
-	  returnedObject = getClass(*primargs);
-	
-	  break;
-	
-      case 21:			/* object equality test */
-	
-	  if (*primargs == *(primargs + 1))
-	  
-	    returnedObject = trueobj;
-	
-	  else
-	  
-	    returnedObject = falseobj;
-	
-	  break;
-	
-      case 25:			/* basicAt: */
-	
-	  j = intValue(*(primargs + 1));
-	
-	  returnedObject = basicAt(*primargs, j);
-	
-	  break;
-	
-      case 31:			/* basicAt:Put: */
-	
-	  j = intValue(*(primargs + 1));
-	
-	  fieldAtPut(*primargs, j, *(primargs + 2));
-	
-	  returnedObject = nilobj;
-	
-	  break;
-	
-      case 53:			/* set time slice */
-	
-	  timeSliceCounter = intValue(*primargs);
-	
-	  returnedObject = nilobj;
-	
-	  break;
-	
-      case 58:			/* allocObject */
-	
-	  j = intValue(*primargs);
-	
-	  returnedObject = allocObject(j);
-	
-	  break;
-	
-      case 87:			/* value of symbol */
-	
-	  returnedObject = globalSymbol(charPtr(*primargs));
-	
-	  break;
-	
+      case 5:   /* set watch */
+  watching = !watching;
+  returnedObject = watching ? trueobj : falseobj;
+  break;
+      case 11:   /* class of object */
+  returnedObject = getClass(*primargs);
+  break;
+      case 21:   /* object equality test */
+  if (*primargs == *(primargs + 1))
+    returnedObject = trueobj;
+  else
+    returnedObject = falseobj;
+  break;
+      case 25:   /* basicAt: */
+  j = intValue(*(primargs + 1));
+  returnedObject = basicAt(*primargs, j);
+  break;
+      case 31:   /* basicAt:Put: */
+  j = intValue(*(primargs + 1));
+  fieldAtPut(*primargs, j, *(primargs + 2));
+  returnedObject = nilobj;
+  break;
+      case 53:   /* set time slice */
+  timeSliceCounter = intValue(*primargs);
+  returnedObject = nilobj;
+  break;
+      case 58:   /* allocObject */
+  j = intValue(*primargs);
+  returnedObject = allocObject(j);
+  break;
+      case 87:  /* value of symbol */
+  returnedObject = globalSymbol(charPtr(*primargs));
+  break;
       default:
-	
-	  returnedObject = primitive(i, primargs);
-	
-	  break;
-	
-      } 
-	 /* increment returned object in case pop would destroy it */ 
-	incr(returnedObject);
-      
-	 /* pop off arguments */ 
-	while (low-- > 0)
+  returnedObject = primitive(i, primargs);
+  break;
+      }
+ /* increment returned object in case pop would destroy it */
+incr(returnedObject);
+ /* pop off arguments */
+while (low-- > 0)
       {
-	
-	  stackTopFree();
-	
-      } 
-	 /* returned object has already been incremented */ 
-	ipush(returnedObject);
-      
-	decr(returnedObject);
-      
-	break;
-      
-	
+  stackTopFree();
+      }
+ /* returned object has already been incremented */
+ipush(returnedObject);
+decr(returnedObject);
+break;
   doReturn:
-	returnPoint = intValue(basicAt(processStack, linkPointer + 2));
-      
-	linkPointer = intValue(basicAt(processStack, linkPointer));
-      
-	while (processStackTop() >= returnPoint)
+returnPoint = intValue(basicAt(processStack, linkPointer + 2));
+linkPointer = intValue(basicAt(processStack, linkPointer));
+while (processStackTop() >= returnPoint)
       {
-	
-	  stackTopFree();
-	
-      } 
-	 /* returned object has already been incremented */ 
-	ipush(returnedObject);
-      
-	decr(returnedObject);
-      
-	 /* now go restart old routine */ 
-	if (linkPointer != nilobj)
-	
-	  goto readLinkageBlock;
-      
-	else
-	
-	  return false /* all done */ ;
-      
-	
+  stackTopFree();
+      }
+ /* returned object has already been incremented */
+ipush(returnedObject);
+decr(returnedObject);
+ /* now go restart old routine */
+if (linkPointer != nilobj)
+  goto readLinkageBlock;
+else
+  return false /* all done */ ;
     case DoSpecial:
-      
-	switch (low)
+switch (low)
       {
-	
       case SelfReturn:
-	
-	  incr(returnedObject = argumentsAt(0));
-	
-	  goto doReturn;
-	
-	  
+  incr(returnedObject = argumentsAt(0));
+  goto doReturn;
       case StackReturn:
-	
-	  ipop(returnedObject);
-	
-	  goto doReturn;
-	
-	  
+  ipop(returnedObject);
+  goto doReturn;
       case Duplicate:
-	
-	   /* avoid possible subtle bug */ 
-	  returnedObject = stackTop();
-	
-	  ipush(returnedObject);
-	
-	  break;
-	
-	  
+   /* avoid possible subtle bug */
+  returnedObject = stackTop();
+  ipush(returnedObject);
+  break;
       case PopTop:
-	
-	  ipop(returnedObject);
-	
-	  decr(returnedObject);
-	
-	  break;
-	
-	  
+  ipop(returnedObject);
+  decr(returnedObject);
+  break;
       case Branch:
-	
-	   /* avoid a subtle bug here */ 
-	  i = nextByte();
-	
-	  byteOffset = i;
-	
-	  break;
-	
-	  
+   /* avoid a subtle bug here */
+  i = nextByte();
+  byteOffset = i;
+  break;
       case BranchIfTrue:
-	
-	  ipop(returnedObject);
-	
-	  i = nextByte();
-	
-	  if (returnedObject == trueobj)
-	{
-	  
-	     /* leave nil on stack */ 
-	    pst++;
-	  
-	    byteOffset = i;
-	  
-	} 
-	  decr(returnedObject);
-	
-	  break;
-	
-	  
+  ipop(returnedObject);
+  i = nextByte();
+  if (returnedObject == trueobj)
+{
+     /* leave nil on stack */
+    pst++;
+    byteOffset = i;
+}
+  decr(returnedObject);
+  break;
       case BranchIfFalse:
-	
-	  ipop(returnedObject);
-	
-	  i = nextByte();
-	
-	  if (returnedObject == falseobj)
-	{
-	  
-	     /* leave nil on stack */ 
-	    pst++;
-	  
-	    byteOffset = i;
-	  
-	} 
-	  decr(returnedObject);
-	
-	  break;
-	
-	  
+  ipop(returnedObject);
+  i = nextByte();
+  if (returnedObject == falseobj)
+{
+     /* leave nil on stack */
+    pst++;
+    byteOffset = i;
+}
+  decr(returnedObject);
+  break;
       case AndBranch:
-	
-	  ipop(returnedObject);
-	
-	  i = nextByte();
-	
-	  if (returnedObject == falseobj)
-	{
-	  
-	    ipush(returnedObject);
-	  
-	    byteOffset = i;
-	  
-	} 
-	  decr(returnedObject);
-	
-	  break;
-	
-	  
+  ipop(returnedObject);
+  i = nextByte();
+  if (returnedObject == falseobj)
+{
+    ipush(returnedObject);
+    byteOffset = i;
+}
+  decr(returnedObject);
+  break;
       case OrBranch:
-	
-	  ipop(returnedObject);
-	
-	  i = nextByte();
-	
-	  if (returnedObject == trueobj)
-	{
-	  
-	    ipush(returnedObject);
-	  
-	    byteOffset = i;
-	  
-	} 
-	  decr(returnedObject);
-	
-	  break;
-	
-	  
+  ipop(returnedObject);
+  i = nextByte();
+  if (returnedObject == trueobj)
+{
+    ipush(returnedObject);
+    byteOffset = i;
+}
+  decr(returnedObject);
+  break;
       case SendToSuper:
-	
-	  i = nextByte();
-	
-	  messageToSend = literalsAt(i);
-	
-	  rcv = sysMemPtr(argumentsAt(0));
-	
-	  methodClass = basicAt(method, methodClassInMethod);
-	
-	/*
-	 * if there is a superclass, use it
+  i = nextByte();
+  messageToSend = literalsAt(i);
+  rcv = sysMemPtr(argumentsAt(0));
+  methodClass = basicAt(method, methodClassInMethod);
+/*
+ * if there is a superclass, use it
  otherwise for class Object (the
-	 * only
+ * only
  class that doesn't have a superclass) use
  the class again
-	   */ 
-	  returnedObject = basicAt(methodClass, superClassInClass);
-	
-	  if (returnedObject != nilobj)
-	  
-	    methodClass = returnedObject;
-	
-	  goto doFindMessage;
-	
-	  
+   */
+  returnedObject = basicAt(methodClass, superClassInClass);
+  if (returnedObject != nilobj)
+    methodClass = returnedObject;
+  goto doFindMessage;
       default:
-	
-	  sysError("invalid doSpecial", "");
-	
-	  break;
-	
-      } 
-	break;
-      
-	
+  sysError("invalid doSpecial", "");
+  break;
+     }
+break;
     default:
-      
-	sysError("invalid bytecode", "");
-      
-	break;
-      
+sysError("invalid bytecode", "");
+break;
     }
   }
 
