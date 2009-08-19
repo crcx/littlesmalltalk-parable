@@ -13,5 +13,11 @@ Budd's Little Smalltalk, Version 3.
 I've reorganized the source and am cleaning it up and making it work on modern
 Unix-like OSes (BSD, Linux, OS X).
 
+Goals for remainder of 2009:
+
+  - Consistent formatting of source
+  - Move documentation (manaul.txt) to reStructuredText
+  - Ensure that it builds and runs on OS X and Linux "out of the box"
+
 -- Charles Childers
 ===============================================================================
