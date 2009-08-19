@@ -55,10 +55,7 @@ extern object   sysPrimitive(INT X OBJP);
 
 
 
-static object 
-zeroaryPrims(number) 
-  int             number;
-
+static object zeroaryPrims(int number)
 {
   
     short           i;
@@ -1082,132 +1079,63 @@ object primitive(primitiveNumber, arguments)
 object * arguments;
 
 {
-  
-    register int    primitiveGroup = primitiveNumber / 10;
-  
-    object returnedObject;
-  
-    
-    
-    if (primitiveNumber >= 150)
+  register int  primitiveGroup = primitiveNumber / 10;
+  object        returnedObject;
+
+  /* system dependent primitives, handled in separate module */
+  if (primitiveNumber >= 150)
+    returnedObject = sysPrimitive(primitiveNumber, arguments);
+  else
   {
-    
-       /* system dependent primitives, handled in separate module */ 
-      returnedObject = sysPrimitive(primitiveNumber, arguments);
-    
-  } else
-  {
-    
-      switch (primitiveGroup)
+    switch (primitiveGroup)
     {
-      
     case 0:
-      
 	returnedObject = zeroaryPrims(primitiveNumber);
-      
 	break;
-      
     case 1:
-      
-	returnedObject = 
-	unaryPrims(primitiveNumber - 10, arguments[0]);
-      
+	returnedObject = unaryPrims(primitiveNumber - 10, arguments[0]);
 	break;
-      
     case 2:
-      
-	returnedObject = 
-	binaryPrims(primitiveNumber - 20, arguments[0], 
-		    arguments[1]);
-      
+	returnedObject = binaryPrims(primitiveNumber - 20, arguments[0], arguments[1]);
 	break;
-      
     case 3:
-      
-	returnedObject = 
-	trinaryPrims(primitiveNumber - 30, arguments[0], 
-		     arguments[1], arguments[2]);
-      
+        returnedObject = trinaryPrims(primitiveNumber - 30, arguments[0], arguments[1], arguments[2]);
 	break;
-      
-	
     case 5:			/* integer unary operations */
-      
 	if (!isInteger(arguments[0]))
-	
 	  returnedObject = nilobj;
-      
 	else
-	
-	  returnedObject = intUnary(primitiveNumber - 50, 
-				    intValue(arguments[0]));
-      
+	  returnedObject = intUnary(primitiveNumber - 50, intValue(arguments[0]));
 	break;
-      
-	
     case 6:
-      
     case 7:			/* integer binary operations */
-      
 	if ((!isInteger(arguments[0])) || !isInteger(arguments[1]))
-	
 	  returnedObject = nilobj;
-      
 	else
-	
-	  returnedObject = intBinary(primitiveNumber - 60, 
-				     intValue(arguments[0]), 
-				     intValue(arguments[1]));
-      
+	  returnedObject = intBinary(primitiveNumber - 60, intValue(arguments[0]), intValue(arguments[1]));
 	break;
-      
-	
     case 8:			/* string unary */
-      
 	returnedObject = 
 	strUnary(primitiveNumber - 80, charPtr(arguments[0]));
-      
 	break;
-      
-	
     case 10:			/* float unary */
-      
 	returnedObject = 
 	floatUnary(primitiveNumber - 100, 
 		   floatValue(arguments[0]));
-      
 	break;
-      
-	
     case 11:			/* float binary */
-      
 	returnedObject = floatBinary(primitiveNumber - 110, 
 				     floatValue(arguments[0]), 
 				     floatValue(arguments[1]));
-      
 	break;
-      
-	
     case 12:
-      
     case 13:			/* file operations */
-      
-	
 	returnedObject = ioPrimitive(primitiveNumber - 120, arguments);
-      
 	break;
-      
-	
-	
     default:
-      
 	sysError("unknown primitive number", "doPrimitive");
-      
 	break;
-      
     } 
   } 
-    
     return (returnedObject);
-  
 } 

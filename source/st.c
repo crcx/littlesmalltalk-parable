@@ -49,7 +49,7 @@ void buildImage(int argc, char **argv)
   makeInitialImage();
   initCommonSymbols();
 
-  for (i = 1; i < argc; i++)
+  for (i = 2; i < argc; i++)
   {
     fprintf(stderr, "%s:\n", argv[i]);
     ignore sprintf(methbuf, "x <120 1 '%s' 'r'>. <123 1>. <121 1>", argv[i]);

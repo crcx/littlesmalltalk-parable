@@ -138,158 +138,172 @@ static object growProcessStack(int top, int toadd)
 
 boolean execute(object aProcess, int maxsteps)
 {
-    object returnedObject;
-    int             returnPoint, timeSliceCounter;
-    object * pst, *psb, *rcv, *arg, *temps, *lits, *cntx;
-    object contextObject, *primargs;
-    int             byteOffset;
-    object methodClass, argarray;
-    int             i, j;
-    register int    low;
-    int             high;
-    register object incrobj;  /* speed up increments and decrements */
-    byte * bp;
+  object returnedObject;
+  int             returnPoint, timeSliceCounter;
+  object * pst, *psb, *rcv, *arg, *temps, *lits, *cntx;
+  object contextObject, *primargs;
+  int             byteOffset;
+  object methodClass, argarray;
+  int             i, j;
+  register int    low;
+  int             high;
 
-    /* unpack the instance variables from the process */
-    processStack = basicAt(aProcess, stackInProcess);
-    psb = sysMemPtr(processStack);
-    j = intValue(basicAt(aProcess, stackTopInProcess));
-    pst = psb + (j - 1);
-    linkPointer = intValue(basicAt(aProcess, linkPtrInProcess));
+  /* speed up increments and decrements */
+  register object incrobj;
+  byte *bp;
 
-    /* set the process time-slice counter before entering loop */
-    timeSliceCounter = maxsteps;
+  /* unpack the instance variables from the process */
+  processStack = basicAt(aProcess, stackInProcess);
+  psb = sysMemPtr(processStack);
+  j = intValue(basicAt(aProcess, stackTopInProcess));
+  pst = psb + (j - 1);
+  linkPointer = intValue(basicAt(aProcess, linkPtrInProcess));
 
-    /* retrieve current values from the linkage area */
+  /* set the process time-slice counter before entering loop */
+  timeSliceCounter = maxsteps;
+
 readLinkageBlock:
-    contextObject = processStackAt(linkPointer + 1);
-    returnPoint = intValue(processStackAt(linkPointer + 2));
-    byteOffset = intValue(processStackAt(linkPointer + 4));
-    if (contextObject == nilobj)
+  /* retrieve current values from the linkage area */
+  contextObject = processStackAt(linkPointer + 1);
+  returnPoint = intValue(processStackAt(linkPointer + 2));
+  byteOffset = intValue(processStackAt(linkPointer + 4));
+
+  if (contextObject == nilobj)
   {
-      contextObject = processStack;
-      cntx = psb;
-      arg = cntx + (returnPoint - 1);
-      method = processStackAt(linkPointer + 3);
-      temps = cntx + linkPointer + 4;
-  } else
-  {				/* read from context object */
-      cntx = sysMemPtr(contextObject);
-      method = basicAt(contextObject, methodInContext);
-      arg = sysMemPtr(basicAt(contextObject, argumentsInContext));
-      temps = sysMemPtr(basicAt(contextObject, temporariesInContext));
+    contextObject = processStack;
+    cntx = psb;
+    arg = cntx + (returnPoint - 1);
+    method = processStackAt(linkPointer + 3);
+    temps = cntx + linkPointer + 4;
   }
-    if (!isInteger(argumentsAt(0)))
-      rcv = sysMemPtr(argumentsAt(0));
-readMethodInfo:
-    lits = sysMemPtr(basicAt(method, literalsInMethod));
-    bp = bytePtr(basicAt(method, bytecodesInMethod)) - 1;
-    while (--timeSliceCounter > 0)
+  else
   {
-      low = (high = nextByte()) & 0x0F;
-      high >>= 4;
-      if (high == 0)
+    /* read from context object */
+    cntx = sysMemPtr(contextObject);
+    method = basicAt(contextObject, methodInContext);
+    arg = sysMemPtr(basicAt(contextObject, argumentsInContext));
+    temps = sysMemPtr(basicAt(contextObject, temporariesInContext));
+  }
+
+  if (!isInteger(argumentsAt(0)))
+    rcv = sysMemPtr(argumentsAt(0));
+readMethodInfo:
+  lits = sysMemPtr(basicAt(method, literalsInMethod));
+  bp = bytePtr(basicAt(method, bytecodesInMethod)) - 1;
+
+  while (--timeSliceCounter > 0)
+  {
+    low = (high = nextByte()) & 0x0F;
+    high >>= 4;
+
+    if (high == 0)
     {
-	high = low;
-	low = nextByte();
+      high = low;
+      low = nextByte();
     }
-      switch (high)
+
+    switch (high)
     {
     case PushInstance:
-	ipush(receiverAt(low));
-	break;
+      ipush(receiverAt(low));
+      break;
     case PushArgument:
-	ipush(argumentsAt(low));
-	break;
+      ipush(argumentsAt(low));
+      break;
     case PushTemporary:
-	ipush(temporaryAt(low));
-	break;
+      ipush(temporaryAt(low));
+      break;
     case PushLiteral:
-	ipush(literalsAt(low));
-	break;
+      ipush(literalsAt(low));
+      break;
     case PushConstant:
-	switch (low)
+      switch (low)
       {
-      case 0:
-      case 1:
-      case 2:
-	  ipush(newInteger(low));
-	  break;
-      case minusOne:
-	  ipush(newInteger(-1));
-	  break;
-      case contextConst:
-/* check to see if we have made a block context yet */
-	  if (contextObject == processStack)
-	{
-/* not yet, do it now - first get real return point */
-	    returnPoint = intValue(processStackAt(linkPointer + 2));
-	    contextObject = newContext(linkPointer, method, copyFrom(processStack, returnPoint, linkPointer - returnPoint), copyFrom(processStack, linkPointer + 5, methodTempSize(method)));
-	    basicAtPut(processStack, linkPointer + 1, contextObject);
-	    ipush(contextObject);
-	     /* save byte pointer then restore things properly */
-	    fieldAtPut(processStack, linkPointer + 4, newInteger(byteOffset));
-	    goto readLinkageBlock;
-	}
-	  ipush(contextObject);
-	  break;
-      case nilConst:
-	  ipush(nilobj);
-	  break;
-      case trueConst:
-	  ipush(trueobj);
-	  break;
-      case falseConst:
-	  ipush(falseobj);
-	  break;
-      default:
-	  sysError("unimplemented constant", "pushConstant");
+        case 0:
+        case 1:
+        case 2:
+          ipush(newInteger(low));
+          break;
+        case minusOne:
+          ipush(newInteger(-1));
+          break;
+        case contextConst:
+          /* check to see if we have made a block context yet */
+          if (contextObject == processStack)
+          {
+            /* not yet, do it now - first get real return point */
+            returnPoint = intValue(processStackAt(linkPointer + 2));
+            contextObject = newContext(linkPointer, method, copyFrom(processStack, returnPoint, linkPointer - returnPoint), copyFrom(processStack, linkPointer + 5, methodTempSize(method)));
+            basicAtPut(processStack, linkPointer + 1, contextObject);
+            ipush(contextObject);
+
+            /* save byte pointer then restore things properly */
+            fieldAtPut(processStack, linkPointer + 4, newInteger(byteOffset));
+            goto readLinkageBlock;
+          }
+          ipush(contextObject);
+          break;
+        case nilConst:
+          ipush(nilobj);
+          break;
+        case trueConst:
+          ipush(trueobj);
+          break;
+        case falseConst:
+          ipush(falseobj);
+          break;
+        default:
+          sysError("unimplemented constant", "pushConstant");
       }
-	break;
+      break;
     case AssignInstance:
-	receiverAtPut(low, stackTop());
-	break;
+      receiverAtPut(low, stackTop());
+      break;
     case AssignTemporary:
-	temporaryAtPut(low, stackTop());
-	break;
+      temporaryAtPut(low, stackTop());
+      break;
     case MarkArguments:
-	returnPoint = (processStackTop() - low) + 1;
-	timeSliceCounter++;	/* make sure we do send */
-	break;
+      returnPoint = (processStackTop() - low) + 1;
+      timeSliceCounter++;
+      /* make sure we do send */
+      break;
     case SendMessage:
-	messageToSend = literalsAt(low);
-  doSendMessage:
-	arg = psb + (returnPoint - 1);
-	if (isInteger(argumentsAt(0)))
-/* should fix this later */
-	  methodClass = getClass(argumentsAt(0));
-	else
+      messageToSend = literalsAt(low);
+doSendMessage:
+      arg = psb + (returnPoint - 1);
+
+      /* should fix this later */
+      if (isInteger(argumentsAt(0)))
+        methodClass = getClass(argumentsAt(0));
+      else
       {
-	  rcv = sysMemPtr(argumentsAt(0));
-	  methodClass = classField(argumentsAt(0));
+        rcv = sysMemPtr(argumentsAt(0));
+        methodClass = classField(argumentsAt(0));
       }
-  doFindMessage:
+doFindMessage:
 /* look up method in cache */
-	i = (((int) messageToSend) + ((int) methodClass)) % cacheSize;
-	if ((methodCache[i].cacheMessage == messageToSend) && (methodCache[i].lookupClass == methodClass))
+      i = (((int) messageToSend) + ((int) methodClass)) % cacheSize;
+
+      if ((methodCache[i].cacheMessage == messageToSend) && (methodCache[i].lookupClass == methodClass))
       {
-	  method = methodCache[i].cacheMethod;
-	  methodClass = methodCache[i].cacheClass;
+        method = methodCache[i].cacheMethod;
+        methodClass = methodCache[i].cacheClass;
       } else
       {
-	  methodCache[i].lookupClass = methodClass;
-	  if (!findMethod(&methodClass))
-	{
-	     /* not found, we invoke a smalltalk method */
-	     /* to recover */
-	    j = processStackTop() - returnPoint;
-	    argarray = newArray(j + 1);
-	    for (; j >= 0; j--)
-	  {
-	      ipop(returnedObject);
-	      basicAtPut(argarray, j + 1, returnedObject);
-	      decr(returnedObject);
-	  }
+        methodCache[i].lookupClass = methodClass;
+        if (!findMethod(&methodClass))
+        {
+          /* not found, we invoke a smalltalk method */
+          /* to recover */
+          j = processStackTop() - returnPoint;
+          argarray = newArray(j + 1);
+
+          for (; j >= 0; j--)
+          {
+            ipop(returnedObject);
+            basicAtPut(argarray, j + 1, returnedObject);
+            decr(returnedObject);
+          }
 	    ipush(basicAt(argarray, 1));	/* push receiver back */
 	    ipush(messageToSend);
 	    messageToSend = newSymbol("message:notRecognizedWithArguments:");
@@ -715,19 +729,13 @@ readMethodInfo:
       
 	break;
       
-    } 
-  } 
-    
-     /* before returning we put back the values in the current process */ 
-     /* object */ 
-    
-    fieldAtPut(processStack, linkPointer + 4, newInteger(byteOffset));
-  
-    fieldAtPut(aProcess, stackTopInProcess, newInteger(processStackTop()));
-  
-    fieldAtPut(aProcess, linkPtrInProcess, newInteger(linkPointer));
-  
-    
-    return true;
-  
-} 
+    }
+  }
+
+   /* before returning we put back the values in the current process */
+   /* object */
+  fieldAtPut(processStack, linkPointer + 4, newInteger(byteOffset));
+  fieldAtPut(aProcess, stackTopInProcess, newInteger(processStackTop()));
+  fieldAtPut(aProcess, linkPtrInProcess, newInteger(linkPointer));
+  return true;
+}
