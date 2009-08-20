@@ -29,6 +29,8 @@ Finished:
   interp.h
   lex.c
   lex.h
+  memory.h
+  names.c
   names.h
   st.c
   tty.c
@@ -37,8 +39,6 @@ Finished:
 To Be Cleaned:
 
   memory.c
-  memory.h
-  names.c
   news.c
   parser.c
   primitive.c
