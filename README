@@ -25,15 +25,16 @@ Finished:
 
   env.h
   filein.c
+  interp.c
   interp.h
   lex.h
   names.h
   st.c
+  tty.c
   unixio.c
 
 To Be Cleaned:
 
-  interp.c
   lex.c
   memory.c
   memory.h
@@ -41,4 +42,3 @@ To Be Cleaned:
   news.c
   parser.c
   primitive.c
-  tty.c
