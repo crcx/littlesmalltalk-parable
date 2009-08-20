@@ -80,10 +80,13 @@ noreturn nameTableInsert(object dict, int hash, object key, object value)
   }
 }
 
-object hashEachElement(object dict, register int hash, int (*fun)())
+object hashEachElement(object dict, register int hash, void *adr)
 {
   object table, key, value, link;
   register object *hp;
+  int (*fun)();
+  fun = adr;
+
   int tablesize;
   table = basicAt(dict, 1);
 
@@ -96,14 +99,14 @@ object hashEachElement(object dict, register int hash, int (*fun)())
     hp = sysMemPtr(table) + (hash - 1);
     key = *hp++;                /* table at: hash */
     value = *hp++;              /* table at: hash + 1 */
-    if ((key != nilobj) && (*fun) (key))
+    if ((key != nilobj) && (*fun)(key))
       return value;
     for (link = *hp; link != nilobj; link = *hp)
     {
       hp = sysMemPtr(link);
       key = *hp++;              /* link at: 1 */
       value = *hp++;            /* link at: 2 */
-      if ((key != nilobj) && (*fun) (key))
+      if ((key != nilobj) && (*fun)(key))
         return value;
     }
   }
