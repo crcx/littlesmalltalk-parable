@@ -1,18 +1,18 @@
- _     _ _   _   _         ____                  _ _ _        _ _
-| |   (_) |_| |_| | ___   / ___| _ __ ___   __ _| | | |_ __ _| | | __
-| |   | | __| __| |/ _ \  \___ \| '_ ` _ \ / _` | | | __/ _` | | |/ /
-| |___| | |_| |_| |  __/   ___) | | | | | | (_| | | | || (_| | |   <
-|_____|_|\__|\__|_|\___|  |____/|_| |_| |_|\__,_|_|_|\__\__,_|_|_|\_\
-===============================================================================
-User's Manual
+   _     _ _   _   _         ____                  _ _ _        _ _
+  | |   (_) |_| |_| | ___   / ___| _ __ ___   __ _| | | |_ __ _| | | __
+  | |   | | __| __| |/ _ \  \___ \| '_ ` _ \ / _` | | | __/ _` | | |/ /
+  | |___| | |_| |_| |  __/   ___) | | | | | | (_| | | | || (_| | |   <
+  |_____|_|\__|\__|_|\___|  |____/|_| |_| |_|\__,_|_|_|\__\__,_|_|_|\_\
 
 Originally written by:
+
   Tim Budd
   Department of Computer Science, Oregon State University.
 
 Edited and Revised by:
+
   Charles Childers.
-===============================================================================
+
 This document provides basic information on using Little Smalltalk. It also has
 additional information that should be useful for those wishing to modify or
 port the system to a new operating environment.

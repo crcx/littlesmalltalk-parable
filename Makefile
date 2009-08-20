@@ -7,8 +7,8 @@ default:
 	@mv bootstrap/systemImage .
 
 doc:
-	rst2html.py manual.rst
+	rst2html.py manual.rst >manual.html
 
 clean:
-	rm -f source/*.o parable systemImage
+	rm -f source/*.o parable systemImage manual.html
 	rm -f `find . | grep \~`
