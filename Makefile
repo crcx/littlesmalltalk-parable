@@ -6,6 +6,9 @@ default:
 	@cd bootstrap && ../parable --bootstrap basic.st mag.st collect.st file.st mult.st tty.st
 	@mv bootstrap/systemImage .
 
+doc:
+	rst2html.py manual.rst
+
 clean:
 	rm -f source/*.o parable systemImage
 	rm -f `find . | grep \~`
