@@ -27,6 +27,7 @@ Finished:
   filein.c
   interp.c
   interp.h
+  lex.c
   lex.h
   names.h
   st.c
@@ -35,7 +36,6 @@ Finished:
 
 To Be Cleaned:
 
-  lex.c
   memory.c
   memory.h
   names.c
